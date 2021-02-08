@@ -1,5 +1,10 @@
 import React from 'react';
+import "./UserList.scss"
 
 export default function UserList(props) {
-  return (<h2 className="ulist-stub">This is the user list</h2>)
+  return (
+    <section className="user-list">
+      <h2 className="user-list__header">This is the user list</h2>
+    </section>
+  )
 }

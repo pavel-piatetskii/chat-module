@@ -7,8 +7,8 @@ function App() {
   return (
     <div className="App">
       <h1>Hello!</h1>
-      <MessageFeed />
       <UserList />
+      <MessageFeed />
       <RoomList />
     </div>
   );

@@ -1,5 +1,11 @@
 import React from 'react';
+import "./RoomList.scss"
+
 
 export default function RoomList(props) {
-  return (<h2 className="ulist-stub">This is the room list</h2>)
+  return (
+    <section className="room-list">
+      <h2 className="room-list__header">This is the room list</h2>
+    </section>
+  )
 }

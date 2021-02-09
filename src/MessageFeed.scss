@@ -1,6 +1,8 @@
 .message-feed {
   background-color: burlywood;
-
+  min-width: 250px;
+  max-width: 750px;
+  width: 100%;
   &__header {
     color: chartreuse;
   }

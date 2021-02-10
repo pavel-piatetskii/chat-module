@@ -1,7 +1,32 @@
 .user-list {
   background-color: aquamarine;
+  flex-direction: column;
 
   &__header {
     color: brown;
+    text-align: center;
+  }
+
+  &__users {
+    flex-direction: column;
+
+    &__user {
+      justify-content: start;
+
+      &__avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background-color: whitesmoke;
+        border: yellowgreen solid 2px ;
+        margin: 10px;
+      }
+
+      &__name {
+        padding: 12% 0;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+    }
   }
 }

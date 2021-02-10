@@ -15,8 +15,12 @@ code {
     monospace;
 }
 
-div, section {
+div, section, article {
   display: flex;
+}
+
+mark {
+  background-color: inherit;
 }
 
 #root {

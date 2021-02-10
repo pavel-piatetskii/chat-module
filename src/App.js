@@ -3,6 +3,8 @@ import MessageFeed from "./MessageFeed";
 import UserList from "./UserList";
 import RoomList from "./RoomList";
 
+//const WebSocket = require('ws');
+
 const data = {
   users: {
     '1': { id: 1, name: 'Jake', avatar: 'https://avatars.dicebear.com/4.5/api/gridy/1.svg'},
@@ -24,8 +26,8 @@ function App() {
     setMessages((prev) => [...prev, newMessage])
   }
 
-  const url = "wss://localhost:3000"
-  let webSocket = new WebSocket(url);
+  const url = "ws://localhost:3000"
+  let wss = new WebSocket(url);
 
   return (
     <div className="App">

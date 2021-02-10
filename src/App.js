@@ -1,3 +1,4 @@
+import { useState } from "react"
 import MessageFeed from "./MessageFeed";
 import UserList from "./UserList";
 import RoomList from "./RoomList";
@@ -14,13 +15,21 @@ const data = {
   ]
 };
 
+
 function App() {
+
+  const [messages, setMessages] = useState(data.messages);
+
+  const addMessage = function (newMessage) {
+    setMessages((prev) => [...prev, newMessage])
+  }
+
   return (
     <div className="App">
       <h1>Hello!</h1>
       <div className="main">
         <UserList users={data.users}/>
-        <MessageFeed users={data.users} messages={data.messages}/>
+        <MessageFeed users={data.users} messages={messages} onSend={addMessage} />
         <RoomList />
       </div>
     </div>

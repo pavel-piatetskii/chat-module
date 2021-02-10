@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./MessageFeed.scss"
 
 export default function MessageFeed(props) {
+
+  const [newMessage, setNewMessage] = useState('');
+  const sendMessage = function (newMessage) {
+    props.onSend({time: new Date(), message: newMessage})
+    setNewMessage('')
+  }
+
   return (
     <section className="message-feed">
       <h2 className="message-feed__header">Room 1</h2>
@@ -11,6 +18,23 @@ export default function MessageFeed(props) {
             <p className="message-feed__message__content">{message.message}</p>
           </article>
         )) }
+      <form
+        className="message-feed__form"
+        onSubmit={event => event.preventDefault()}
+        autoComplete='off'
+      >
+        <input
+          className="message-feed__form__input"
+          name="new-message"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+        ></input>
+        <button
+          className="message-feed__form__button"
+          onClick={(() => sendMessage(newMessage))}
+        >
+          Send</button>
+      </form>
     </section>
   )
 }

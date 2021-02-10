@@ -4,13 +4,13 @@ import RoomList from "./RoomList";
 
 const data = {
   users: {
-    '1': { id: 1, name: 'Jake', avatar: 'https://avatars.dicebear.com/4.5/api/gridy/1.svg' },
-    '2': { id: 2, name: 'Jane', avatar: 'https://avatars.dicebear.com/4.5/api/gridy/2.svg' }
+    '1': { id: 1, name: 'Jake', avatar: 'https://avatars.dicebear.com/4.5/api/gridy/1.svg'},
+    '2': { id: 2, name: 'Jane', avatar: 'https://avatars.dicebear.com/4.5/api/gridy/2.svg'}
   },
   messages: [
-    { id: 1, room: 1, sender: 1, message: 'Hi!' },
-    { id: 2, room: 1, sender: 2, message: 'Hello! How\'r U?' },
-    { id: 3, room: 1, sender: 1, message: 'Good :)!' }
+    { id: 1, room: 1, sender: 1, message: 'Hi!', time: new Date("2021-02-01:00:00") },
+    { id: 2, room: 1, sender: 2, message: 'Hello! How\'r U?', time: new Date("2021-02-01:00:01") },
+    { id: 3, room: 1, sender: 1, message: 'Good :)!', time: new Date("2021-02-01:00:02") }
   ]
 };
 
@@ -20,7 +20,7 @@ function App() {
       <h1>Hello!</h1>
       <div className="main">
         <UserList users={data.users}/>
-        <MessageFeed />
+        <MessageFeed users={data.users} messages={data.messages}/>
         <RoomList />
       </div>
     </div>

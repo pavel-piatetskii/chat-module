@@ -3,7 +3,28 @@
   min-width: 250px;
   max-width: 750px;
   width: 100%;
+  flex-direction: column;
+
   &__header {
     color: chartreuse;
+    padding-left: 25px;
+  }
+
+  &__message {
+    max-width: 50%;
+    margin: 10px 25px;
+    
+    &__content {
+      background-color: khaki;
+      border-radius: 6px;
+      width: fit-content;
+      padding: 5px;
+      margin: 0 10px;
+    }
+
+    &__time {
+      font-size: 0.75rem;
+      padding: 0.6em 0;
+    }
   }
 }

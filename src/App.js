@@ -24,6 +24,9 @@ function App() {
     setMessages((prev) => [...prev, newMessage])
   }
 
+  const url = "wss://localhost:3000"
+  let webSocket = new WebSocket(url);
+
   return (
     <div className="App">
       <h1>Hello!</h1>

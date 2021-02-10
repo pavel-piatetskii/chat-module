@@ -22,12 +22,17 @@ function App() {
 
   const [messages, setMessages] = useState(data.messages);
 
-  const addMessage = function (newMessage) {
-    setMessages((prev) => [...prev, newMessage])
-  }
-
   const url = "ws://localhost:3000"
   let wss = new WebSocket(url);
+
+  console.log(wss)
+
+  const addMessage = function (newMessage) {
+    setMessages((prev) => [...prev, newMessage])
+    //wss.send('Message sent')
+    console.log(wss)
+  }
+
 
   return (
     <div className="App">

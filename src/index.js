@@ -4,7 +4,25 @@ import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+const https = require('https');
+const WebSocketServer = require('ws').server;
 
+const httpsServer = https.createServer((req, res) => {
+  console.log((new Date()) + " Received request for " + req.url);
+  res.writeHead(404);
+  res.end();
+});
+
+httpsServer.listen(3001, function() {
+  console.log((new Date()) + " Server is listening on port 3001");
+});
+
+console.log("***CREATING WEBSOCKET SERVER");
+const wsServer = new WebSocketServer({
+    httpServer: httpsServer,
+    autoAcceptConnections: false
+});
+console.log("***CREATED");
 
 ReactDOM.render(
   <React.StrictMode>

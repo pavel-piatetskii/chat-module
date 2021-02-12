@@ -16,8 +16,8 @@ const data = {
     { id: 3, room: 1, sender: 1, message: 'Good :)!', time: new Date("2021-02-01:00:02") }
   ],
   rooms: {
-    '1': { id: 1, name: 'Main Room' },
-    '2': { id: 2, name: 'Offtopic' }
+    '1': { id: 1, name: 'Main Room', image: 'http://forums.civfanatics.com/images/war_academy/civ5/civs/big/greece.png' },
+    '2': { id: 2, name: 'Offtopic', image: 'http://forums.civfanatics.com/images/war_academy/civ5/civs/big/aztec.png' }
   }
 };
 
@@ -51,7 +51,7 @@ function App() {
       <div className="main">
         <UserList users={data.users}/>
         <MessageFeed users={data.users} messages={messages} onSend={addMessage} />
-        <RoomList />
+        <RoomList rooms={data.rooms}/>
       </div>
     </div>
   );

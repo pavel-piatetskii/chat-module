@@ -14,7 +14,11 @@ const data = {
     { id: 1, room: 1, sender: 1, message: 'Hi!', time: new Date("2021-02-01:00:00") },
     { id: 2, room: 1, sender: 2, message: 'Hello! How\'r U?', time: new Date("2021-02-01:00:01") },
     { id: 3, room: 1, sender: 1, message: 'Good :)!', time: new Date("2021-02-01:00:02") }
-  ]
+  ],
+  rooms: {
+    '1': { id: 1, name: 'Main Room' },
+    '2': { id: 2, name: 'Offtopic' }
+  }
 };
 
 

@@ -3,5 +3,30 @@
 
   &__header {
     color: cyan;
+    text-align: center;
+  }
+
+  &__rooms {
+    flex-direction: column;
+
+    &__room {
+      justify-content: start;
+
+      &__image {
+        width: 50px;
+        height: 50px;
+        border-radius: 25%;
+        background-color: whitesmoke;
+        border: yellowgreen solid 3px ;
+        margin: 3px 10px;
+        padding: 5px;
+      }
+
+      &__name {
+        padding: 10% 0;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+    }
   }
 }

@@ -20,9 +20,10 @@ wsServer.on('connection', ws => {
   ws.send(JSON.stringify({ history }));
   connections.push(ws)
 
-  ws.on('message', (msg) => {
-    history.push(msg)
-    connections.map(ws => ws.send(msg))
+  ws.on('message', (message) => {
+    console.log(message)
+    history.push({ message, time: new Date() })
+    connections.map(ws => ws.send(message))
   })
 })
 

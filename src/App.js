@@ -24,28 +24,12 @@ const data = {
 
 function App() {
 
-  const [messages, setMessages] = useState(data.messages);
-
-  const pre = function(e) {
-    console.log(e)
-  }
-
-
-
-  //console.log(wss)
-
-  const addMessage = function (newMessage) {
-    setMessages((prev) => [...prev, newMessage])
-    //wss.send('Message sent')
-  }
-
-
   return (
     <div className="App">
       <h1>Hello!</h1>
       <div className="main">
         <UserList users={data.users}/>
-        <MessageFeed users={data.users} messages={messages} onSend={addMessage} />
+        <MessageFeed users={data.users} messages={data.messages} />
         <RoomList rooms={data.rooms}/>
       </div>
     </div>

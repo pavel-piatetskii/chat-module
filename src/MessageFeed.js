@@ -8,12 +8,20 @@ export default function MessageFeed(props) {
 
 
   wss.onopen = (e) => {
-    wss.send('ping')
+    wss.onmessage = (rep) => {
+      console.log(rep)
+      //addMessage({time: new Date(), message: rep.data})    
+    }
   }
-  
+
+  const [messages, setMessages] = useState(props.messages);
+  const addMessage = function (newMessage) {
+    setMessages((prev) => [...prev, newMessage])
+  }
+
   wss.onmessage = (rep) => {
     console.log(rep.data)
-    props.onSend({time: new Date(), message: rep.data})    
+    addMessage({time: new Date(), message: rep.data})    
   }
 
   wss.onclose = (e) => {

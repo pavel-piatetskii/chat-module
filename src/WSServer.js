@@ -14,14 +14,15 @@ const wsServer = new WebSocket.Server({ port: 3001 });
 console.log("***CREATED");
 
 let connections = []
+let history = []
 
 wsServer.on('connection', ws => {
-  ws.send('Welcome!');
+  ws.send(JSON.stringify({ history }));
   connections.push(ws)
 
-  ws.on('message', (e) => {
-    //ws.send(e)
-    connections.map(ws => ws.send(e))
+  ws.on('message', (msg) => {
+    history.push(msg)
+    connections.map(ws => ws.send(msg))
   })
 })
 

@@ -44,8 +44,8 @@ export default function MessageFeed(props) {
       <h2 className="message-feed__header">Room 1</h2>
       {messages && messages.map((message) => (
           <article className="message-feed__message" key={message.id}>
-            <mark className="message-feed__message__time" key={`mark-${messages.length}`}>{message.time.toLocaleString('en-US').split(',')[1]}</mark>
-            <p className="message-feed__message__content" key={`p-${messages.length}`}>{message.message}</p>
+            <mark className="message-feed__message__time">{message.time.toLocaleString('en-US').split(',')[1]}</mark>
+            <p className="message-feed__message__content">{message.message}</p>
           </article>
         )) }
       <form

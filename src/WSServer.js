@@ -13,17 +13,17 @@ console.log("***CREATING WEBSOCKET SERVER");
 const wsServer = new WebSocket.Server({ port: 3001 });
 console.log("***CREATED");
 
-let connections = []
-let history = []
+let connections = [];
+let history = [];
 
 wsServer.on('connection', ws => {
   ws.send(JSON.stringify({ history }));
-  connections.push(ws)
+  connections.push(ws);
 
   ws.on('message', (message) => {
-    console.log(message)
-    history.push({ message, time: new Date() })
-    connections.map(ws => ws.send(message))
+    console.log(message);
+    history.push({ id: history.length, message, time: new Date() });
+    connections.map(ws => ws.send(message));
   })
 })
 

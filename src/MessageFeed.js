@@ -1,11 +1,29 @@
 import React, { useState } from 'react';
 import "./MessageFeed.scss"
 
+const wss = new WebSocket("ws://192.168.1.163:3001");
+
+
 export default function MessageFeed(props) {
+
+
+  wss.onopen = (e) => {
+    wss.send('ping')
+  }
+  
+  wss.onmessage = (rep) => {
+    console.log(rep.data)
+    props.onSend({time: new Date(), message: rep.data})    
+  }
+
+  wss.onclose = (e) => {
+    console.log('close')
+  }
 
   const [newMessage, setNewMessage] = useState('');
   const sendMessage = function (newMessage) {
-    props.onSend({time: new Date(), message: newMessage})
+    //props.onSend({time: new Date(), message: newMessage})
+    wss.send(newMessage)
     setNewMessage('')
   }
 

@@ -10,16 +10,21 @@ httpServer.listen(3001, () => {
 */
 
 console.log("***CREATING WEBSOCKET SERVER");
-const wsServer = new WebSocket.Server({
-    //httpServer: httpServer,
-    port: 3001,
-});
+const wsServer = new WebSocket.Server({ port: 3001 });
 console.log("***CREATED");
 
-wsServer.onmessage = (e) => {
-  console.log(e)
-  console.log('M')
-}
+let connections = []
+
+wsServer.on('connection', ws => {
+  ws.send('Welcome!');
+  connections.push(ws)
+
+  ws.on('message', (e) => {
+    //ws.send(e)
+    connections.map(ws => ws.send(e))
+  })
+})
+
 
 //wsServer.on('request', (request) => {
 //  const connection = request.accept(null, request.origin)

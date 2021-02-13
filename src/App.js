@@ -26,22 +26,17 @@ function App() {
 
   const [messages, setMessages] = useState(data.messages);
 
-  const url = "ws://localhost:3001"
-  let wss = new WebSocket(url);
-
-  wss.onopen = (e) => {
-    wss.send('ping')
+  const pre = function(e) {
+    console.log(e)
   }
 
-  wss.onclose = (e) => {
-    console.log('close')
-  }
 
-  console.log(wss)
+
+  //console.log(wss)
 
   const addMessage = function (newMessage) {
     setMessages((prev) => [...prev, newMessage])
-    wss.send('Message sent')
+    //wss.send('Message sent')
   }
 
 

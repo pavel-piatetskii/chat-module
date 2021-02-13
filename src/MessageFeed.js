@@ -16,8 +16,8 @@ export default function MessageFeed(props) {
       console.log(JSON.parse(rep.data))
       const { history } = JSON.parse(rep.data)
       history.map(element => {
-        const { message, time } = element;
-        addMessage({ message, time })
+        const { id, message, time } = element;
+        addMessage({ id, time: new Date(time), message })
       })     
     }
   }
@@ -25,7 +25,7 @@ export default function MessageFeed(props) {
 
   wss.onmessage = (rep) => {
     console.log(rep.data)
-    addMessage({time: new Date(), message: rep.data})    
+    addMessage({ id: messages.length, time: new Date(), message: rep.data })    
   }
 
   wss.onclose = (e) => {
@@ -43,9 +43,9 @@ export default function MessageFeed(props) {
     <section className="message-feed">
       <h2 className="message-feed__header">Room 1</h2>
       {messages && messages.map((message) => (
-          <article className="message-feed__message" key={message.length}>
-            <mark className="message-feed__message__time">{message.time.toLocaleString('en-US').split(',')[1]}</mark>
-            <p className="message-feed__message__content">{message.message}</p>
+          <article className="message-feed__message" key={message.id}>
+            <mark className="message-feed__message__time" key={`mark-${messages.length}`}>{message.time.toLocaleString('en-US').split(',')[1]}</mark>
+            <p className="message-feed__message__content" key={`p-${messages.length}`}>{message.message}</p>
           </article>
         )) }
       <form

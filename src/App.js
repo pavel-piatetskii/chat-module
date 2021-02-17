@@ -34,15 +34,31 @@ const data = {
 
 function App() {
 
-  const [currentRoom, setCurrentRoom] = useState('1')
+  const [currentRoom, setCurrentRoom] = useState('1');
+  const [wss, setWSS] = useState(new WebSocket(`ws://192.168.1.163:3001`));
+
+  
+  const switchRoom = function(roomNumber) {
+    wss.close();
+    setCurrentRoom(roomNumber)
+    //const wss = new WebSocket(`ws://192.168.1.163:${data.rooms[currentRoom].port}`);
+    setWSS(new WebSocket(`ws://192.168.1.163:${data.rooms[currentRoom].port}`));
+    console.log(currentRoom)
+  };
 
   return (
     <div className="App">
       <h1>Hello!</h1>
       <div className="main">
         <UserList users={data.users}/>
-        <MessageFeed users={data.users} messages={data.messages} />
-        <RoomList rooms={data.rooms} currentRoom={currentRoom} changeRoom={setCurrentRoom}/>
+        <MessageFeed
+          users={data.users}
+          messages={data.messages}
+          roomName={data.rooms[currentRoom].name}
+          roomPort={data.rooms[currentRoom].port}
+          wss={wss}
+        />
+        <RoomList rooms={data.rooms} currentRoom={currentRoom} changeRoom={switchRoom}/>
       </div>
     </div>
   );

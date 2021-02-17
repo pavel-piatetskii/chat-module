@@ -20,7 +20,8 @@ let history3002 = [];
 //let history = { 'main': [], 'offtopic': [] };
 
 wsServer3001.on('connection', ws => {
-  console.log(ws.server)
+  //console.log(ws.server)
+  console.log('New connection on port 3001')
   ws.send(JSON.stringify({ history: history3001 }));
   connections3001.push(ws);
 
@@ -32,7 +33,8 @@ wsServer3001.on('connection', ws => {
 })
 
 wsServer3002.on('connection', ws => {
-  console.log(ws.server)
+  //console.log(ws.server)
+  console.log('New connection on port 3002')
   ws.send(JSON.stringify({ history: history3002 }));
   connections3002.push(ws);
 

@@ -1,47 +1,44 @@
 'use strict'
 const http = require('http');
 const WebSocket = require('ws');
-/*
-const httpServer = http.createServer();
 
-httpServer.listen(3001, () => {
-  console.log((new Date()) + " Server is listening on port 3001");
-});
-*/
-
-console.log("***CREATING WEBSOCKET SERVER");
-const wsServer = new WebSocket.Server({ port: 3001 });
+console.log("--- Creating Websocket servers for all Rooms");
+const wsServer3001 = new WebSocket.Server({ port: 3001 });
+const wsServer3002 = new WebSocket.Server({ port: 3002 });
+//const wsServers3001 = [new WebSocket.Server({ port: 3001 }), new WebSocket.Server({ port: 3002 })];
 console.log("***CREATED");
 
-let connections = [];
-let history = [];
+//let connections = [];
+//let history = [];
 
-wsServer.on('connection', ws => {
-  ws.send(JSON.stringify({ history }));
-  connections.push(ws);
+let connections3001 = [];
+let history3001 = [];
+let connections3002 = [];
+let history3002 = [];
+
+//let connections = { 'main': [], 'offtopic': [] };
+//let history = { 'main': [], 'offtopic': [] };
+
+wsServer3001.on('connection', ws => {
+  console.log(ws.server)
+  ws.send(JSON.stringify({ history: history3001 }));
+  connections3001.push(ws);
 
   ws.on('message', (message) => {
-    console.log(message);
-    history.push({ id: history.length, message, time: new Date() });
-    connections.map(ws => ws.send(message));
+    console.log('3001: ' + message);
+    history3001.push({ id: history3001.length, message, time: new Date() });
+    connections3001.map(ws => ws.send(message));
   })
 })
 
+wsServer3002.on('connection', ws => {
+  console.log(ws.server)
+  ws.send(JSON.stringify({ history: history3002 }));
+  connections3002.push(ws);
 
-//wsServer.on('request', (request) => {
-//  const connection = request.accept(null, request.origin)
-//})
-
-//wsServer.on('request', (request) => {
-//  const connection = request.accept(null, request.origin)
-//})
-
-/*
-const http = require('http');
-var server = http.createServer((req, res) => {
-res.writeHead(200, {'Content-type':'text/html'});
-res.end('<h1>Hello NodeJS</h1>');
-}).listen(3000, 'localhost');
-
-server.listen(3000,() => console.log('Server running on port localhost:3000'));
-*/
+  ws.on('message', (message) => {
+    console.log('3002: ' + message);
+    history3002.push({ id: history3002.length, message, time: new Date() });
+    connections3002.map(ws => ws.send(message));
+  })
+})

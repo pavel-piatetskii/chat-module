@@ -15,7 +15,7 @@ export default function MessageFeed(props) {
     wss.onmessage = (rep) => {
       console.log(JSON.parse(rep.data))
       const { history } = JSON.parse(rep.data)
-      history.map(element => {
+      history && history.map(element => {
         const { id, message, time } = element;
         addMessage({ id, time: new Date(time), message })
       })     

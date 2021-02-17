@@ -8,9 +8,17 @@
 
   &__rooms {
     flex-direction: column;
+    
+    :hover{
+      background-color: burlywood
+    }
 
     &__room {
       justify-content: start;
+      cursor: pointer;
+      margin: 0 5px;
+      border-radius: 5px;
+
 
       &__image {
         width: 50px;

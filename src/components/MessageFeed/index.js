@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import "./MessageFeed.scss"
 
-
-
-//const wss = new WebSocket(`ws://192.168.1.163:3001`);
-
 export default function MessageFeed(props) {
 
   const { wss } = props;
@@ -17,7 +13,6 @@ export default function MessageFeed(props) {
   wss.onopen = (e) => {
     setMessages(prev => '')
     wss.onmessage = (rep) => {
-      console.log(JSON.parse(rep.data))
       const { history } = JSON.parse(rep.data)
       history && history.map(element => {
         const { id, message, time } = element;
@@ -37,7 +32,6 @@ export default function MessageFeed(props) {
 
   const [newMessage, setNewMessage] = useState('');
   const sendMessage = function (newMessage) {
-    //props.onSend({time: new Date(), message: newMessage})
     wss.send(newMessage)
     setNewMessage('')
   }

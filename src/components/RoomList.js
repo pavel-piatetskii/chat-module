@@ -1,10 +1,10 @@
 import React from 'react';
-import "./RoomList.scss"
+import "./RoomList.scss";
 
 
 export default function RoomList(props) {
 
-  const { rooms, changeRoom } = props
+  const { rooms, changeRoom } = props;
 
   return (
     <section className="room-list list-section">
@@ -22,5 +22,5 @@ export default function RoomList(props) {
         )) }
       </div>
     </section>
-  )
-}
+  );
+};

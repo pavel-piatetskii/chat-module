@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, Fragment } from "react"
 import MessageFeed from "components/MessageFeed";
 import UserList from "components/UserList";
 import RoomList from "components/RoomList";
@@ -33,31 +33,35 @@ const data = {
 function App() {
 
   const [currentRoom, setCurrentRoom] = useState('1');
+  const [user, setUser] = useState('');
+  
   useEffect(() => {
-    setWSS(new WebSocket(`ws://192.168.1.163:${data.rooms[currentRoom].port}`))
+    user && setWSS(new WebSocket(`ws://192.168.1.163:${data.rooms[currentRoom].port}`))
   }, [currentRoom]);
   const [wss, setWSS] = useState('');
+
 
   
   const switchRoom = function(roomNumber) {
     wss.close();
-    setCurrentRoom(roomNumber)
+    setCurrentRoom(roomNumber);
   };
 
   return (
     <div className="App">
-      <h1>Hello!</h1>
-      <div className="main">
+      {!user && (
+        <Fragment>
+          <h1>Hi! Looks like you're new here. What's your name?</h1>
+        </Fragment>
+      )}
+      {user && <div className="main">
         <UserList users={data.users}/>
         {wss && <MessageFeed
           users={data.users}
-          messages={data.messages}
-          roomName={data.rooms[currentRoom].name}
-          roomPort={data.rooms[currentRoom].port}
           wss={wss}
         />}
         <RoomList rooms={data.rooms} currentRoom={currentRoom} changeRoom={switchRoom}/>
-      </div>
+      </div>}
     </div>
   );
 }

@@ -21,6 +21,7 @@ let history3002 = [];
 
 wsServer3001.on('connection', ws => {
   //console.log(ws.server)
+  //ws.on('open', () => console.log('New connection on port 3001'))
   console.log('New connection on port 3001')
   ws.send(JSON.stringify({ history: history3001 }));
   connections3001.push(ws);

@@ -26,7 +26,6 @@ export default function MessageFeed(props) {
     }
   }
 
-
   wss.onmessage = (rep) => {
     console.log(rep.data)
     addMessage({ id: messages.length, time: new Date(), message: rep.data })    

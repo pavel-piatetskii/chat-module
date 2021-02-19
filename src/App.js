@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import MessageFeed from "./MessageFeed";
 import UserList from "./UserList";
 import RoomList from "./RoomList";
@@ -35,14 +35,18 @@ const data = {
 function App() {
 
   const [currentRoom, setCurrentRoom] = useState('1');
-  const [wss, setWSS] = useState(new WebSocket(`ws://192.168.1.163:3001`));
+  useEffect(() => {
+    setWSS(new WebSocket(`ws://192.168.1.163:${data.rooms[currentRoom].port}`))
+  }, [currentRoom])
+  const [wss, setWSS] = useState('')//`ws://192.168.1.163:3001`));
 
   
   const switchRoom = function(roomNumber) {
     wss.close();
+    //setWSS('')
     setCurrentRoom(roomNumber)
     //const wss = new WebSocket(`ws://192.168.1.163:${data.rooms[currentRoom].port}`);
-    setWSS(new WebSocket(`ws://192.168.1.163:${data.rooms[currentRoom].port}`));
+    //setWSS(new WebSocket(`ws://192.168.1.163:${data.rooms[currentRoom].port}`));
     console.log(currentRoom)
   };
 
@@ -51,13 +55,13 @@ function App() {
       <h1>Hello!</h1>
       <div className="main">
         <UserList users={data.users}/>
-        <MessageFeed
+        {wss && <MessageFeed
           users={data.users}
           messages={data.messages}
           roomName={data.rooms[currentRoom].name}
           roomPort={data.rooms[currentRoom].port}
           wss={wss}
-        />
+        />}
         <RoomList rooms={data.rooms} currentRoom={currentRoom} changeRoom={switchRoom}/>
       </div>
     </div>

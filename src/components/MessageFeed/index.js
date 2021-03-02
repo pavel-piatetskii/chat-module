@@ -9,7 +9,7 @@ export default function MessageFeed(props) {
   const addMessage = function (newMessage) {
     setMessages((prev) => [...prev, newMessage])
   }
-
+  /*
   // Action when client opens a websocket connection
   wss.onopen = (e) => {
     setMessages(prev => '')
@@ -41,7 +41,7 @@ export default function MessageFeed(props) {
     wss.send(JSON.stringify({ newMessage }))
     setNewMessage('')
   }
-
+  */
   return (
     <section className="message-feed">
       <h2 className="message-feed__header">{props.roomName}</h2>

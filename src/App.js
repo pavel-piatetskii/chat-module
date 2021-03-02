@@ -35,6 +35,9 @@ function App() {
 
   const [currentRoom, setCurrentRoom] = useState('');
   const [user, setUser] = useState('');
+  const [usersInRoom, setUsersInRoom] = useState('');
+
+
 
   useEffect(() => {
     user && setWSS(new WebSocket(`ws://192.168.1.163:${data.rooms[currentRoom].port}`))
@@ -50,6 +53,34 @@ function App() {
     wss.close();
     setCurrentRoom(roomNumber);
   };
+
+  
+      // Action when client opens a websocket connection
+  wss.onopen = (e) => {
+    setMessages(prev => '')
+
+    wss.send(JSON.stringify({ user }))
+
+    wss.onmessage = (rep) => {
+      const { history } = JSON.parse(rep.data)
+      history && history.map(element => {
+        const { id, message, time } = element;
+        addMessage({ id, time: new Date(time), message })
+      })     
+    }
+  }
+
+  // Action when client receives message
+  wss.onmessage = (rep) => {
+    console.log(rep.data)
+    addMessage({ id: messages.length, time: new Date(), message: rep.data })    
+  }
+
+  // Action on closing connection
+  wss.onclose = (e) => {
+    console.log('close')
+  }
+  
 
   return (
     <div className="App">

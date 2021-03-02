@@ -13,6 +13,8 @@ console.log("***CREATED");
 
 let connections3001 = [];
 let history3001 = [];
+let users3001 = [];
+
 let connections3002 = [];
 let history3002 = [];
 
@@ -32,11 +34,14 @@ wsServer3001.on('connection', ws => {
     const parsedMessage = (JSON.parse(message));
     const { user, newMessage } = parsedMessage;
 
-    user && console.log(`New User: ${user}!`);
     newMessage && console.log(`New Message: ${newMessage}!`);
-    
-    history3001.push({ id: history3001.length, message, time: new Date() });
-    connections3001.map(ws => ws.send(message));
+    newMessage && history3001.push({ id: history3001.length, newMessage, time: new Date() });
+    newMessage && connections3001.map(ws => ws.send(JSON.stringify({ users3001 })));
+
+    user && console.log(`New User: ${user}!`);
+    user && users3001.push(user)
+    user && connections3001.map(ws => ws.send(JSON.stringify({ newMessage })));
+
   })
 })
 

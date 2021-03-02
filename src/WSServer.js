@@ -21,12 +21,20 @@ let history3002 = [];
 
 wsServer3001.on('connection', ws => {
   console.log('New connection on port 3001')
+  
   //console.log(Object.keys(ws['_events']))
+
   ws.send(JSON.stringify({ history: history3001 }));
   connections3001.push(ws);
 
   ws.on('message', (message) => {
     console.log('3001: ' + message);
+    const parsedMessage = (JSON.parse(message));
+    const { user, newMessage } = parsedMessage;
+
+    user && console.log(`New User: ${user}!`);
+    newMessage && console.log(`New Message: ${newMessage}!`);
+    
     history3001.push({ id: history3001.length, message, time: new Date() });
     connections3001.map(ws => ws.send(message));
   })

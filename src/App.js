@@ -62,6 +62,7 @@ function App() {
           users={data.users}
           roomName={data.rooms[currentRoom].name}
           wss={wss}
+          user={user}
         />}
         <RoomList rooms={data.rooms} currentRoom={currentRoom} changeRoom={switchRoom}/>
       </div>}

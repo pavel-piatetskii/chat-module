@@ -3,7 +3,7 @@ import "./MessageFeed.scss"
 
 export default function MessageFeed(props) {
 
-  const { wss } = props;
+  const { wss, user } = props;
 
   const [messages, setMessages] = useState('');
   const addMessage = function (newMessage) {
@@ -13,6 +13,9 @@ export default function MessageFeed(props) {
   // Action when client opens a websocket connection
   wss.onopen = (e) => {
     setMessages(prev => '')
+
+    wss.send(JSON.stringify({ user }))
+
     wss.onmessage = (rep) => {
       const { history } = JSON.parse(rep.data)
       history && history.map(element => {
@@ -35,7 +38,7 @@ export default function MessageFeed(props) {
 
   const [newMessage, setNewMessage] = useState('');
   const sendMessage = function (newMessage) {
-    wss.send(newMessage)
+    wss.send(JSON.stringify({ newMessage }))
     setNewMessage('')
   }
 

@@ -10,6 +10,7 @@ export default function MessageFeed(props) {
     setMessages((prev) => [...prev, newMessage])
   }
 
+  // Action when client opens a websocket connection
   wss.onopen = (e) => {
     setMessages(prev => '')
     wss.onmessage = (rep) => {
@@ -21,11 +22,13 @@ export default function MessageFeed(props) {
     }
   }
 
+  // Action when client receives message
   wss.onmessage = (rep) => {
     console.log(rep.data)
     addMessage({ id: messages.length, time: new Date(), message: rep.data })    
   }
 
+  // Action on closing connection
   wss.onclose = (e) => {
     console.log('close')
   }

@@ -3,13 +3,13 @@ import "./MessageFeed.scss"
 
 export default function MessageFeed(props) {
 
-  const { wss, user } = props;
+  const { wss, user, setUsersInRoom } = props;
 
   const [messages, setMessages] = useState('');
   const addMessage = function (newMessage) {
     setMessages((prev) => [...prev, newMessage])
   }
-  /*
+
   // Action when client opens a websocket connection
   wss.onopen = (e) => {
     setMessages(prev => '')
@@ -28,7 +28,10 @@ export default function MessageFeed(props) {
   // Action when client receives message
   wss.onmessage = (rep) => {
     console.log(rep.data)
-    addMessage({ id: messages.length, time: new Date(), message: rep.data })    
+    const { newMessage, users } = JSON.parse(rep.data)
+    
+    newMessage && addMessage({ id: messages.length, time: new Date(), message: rep.data });
+    users && setUsersInRoom(users);
   }
 
   // Action on closing connection
@@ -41,7 +44,7 @@ export default function MessageFeed(props) {
     wss.send(JSON.stringify({ newMessage }))
     setNewMessage('')
   }
-  */
+
   return (
     <section className="message-feed">
       <h2 className="message-feed__header">{props.roomName}</h2>

@@ -36,7 +36,7 @@ wsServer3001.on('connection', ws => {
 
     newMessage && console.log(`New Message: ${newMessage}!`);
     newMessage && history3001.push({ id: history3001.length, newMessage, time: new Date() });
-    newMessage && connections3001.map(ws => ws.send(JSON.stringify({ users3001 })));
+    newMessage && connections3001.map(ws => ws.send(JSON.stringify({ users: users3001 })));
 
     user && console.log(`New User: ${user}!`);
     user && users3001.push(user)

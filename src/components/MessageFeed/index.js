@@ -3,7 +3,7 @@ import "./MessageFeed.scss"
 
 export default function MessageFeed(props) {
 
-  const { wss, user, setUsersInRoom } = props;
+  const { wss, user, createUsersObject } = props;
 
   const [messages, setMessages] = useState('');
   const addMessage = function (newMessage) {
@@ -30,8 +30,8 @@ export default function MessageFeed(props) {
     console.log(rep.data)
     const { newMessage, users } = JSON.parse(rep.data)
     
-    newMessage && addMessage({ id: messages.length, time: new Date(), message: rep.data });
-    users && setUsersInRoom(users);
+    newMessage && addMessage({ id: messages.length, time: new Date(), message: newMessage });
+    users && createUsersObject(users);
   }
 
   // Action on closing connection

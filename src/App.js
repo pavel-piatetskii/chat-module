@@ -52,19 +52,31 @@ function App() {
     setCurrentRoom(roomNumber);
   };
 
+  const createUsersObject = function(users) {
+    //setUsersInRoom = (prev) => '';
+    let usersObject = {};
+    users.map((user, index) => 
+      usersObject[index] = {
+        id: index,
+        name: user,
+        avatar: `https://avatars.dicebear.com/4.5/api/gridy/${user}.svg`
+      })
+    setUsersInRoom(usersObject)
+  }
+
   return (
     <div className="App">
       {!user && (
         <GetUserName saveUser={saveUser}/>
       )}
       {user && <div className="main">
-        <UserList users={data.users}/>
+        {usersInRoom && <UserList users={usersInRoom}/>}
         {wss && <MessageFeed
           users={data.users}
           roomName={data.rooms[currentRoom].name}
           wss={wss}
           user={user}
-          setUsersInRoom={setUsersInRoom}
+          createUsersObject={createUsersObject}
         />}
         <RoomList rooms={data.rooms} currentRoom={currentRoom} changeRoom={switchRoom}/>
       </div>}

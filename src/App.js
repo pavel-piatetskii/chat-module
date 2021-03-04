@@ -48,6 +48,7 @@ function App() {
   };
   
   const switchRoom = function(roomNumber) {
+    wss.send(JSON.stringify({ userClosed: user }))
     wss.close();
     setCurrentRoom(roomNumber);
   };

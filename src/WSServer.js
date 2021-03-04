@@ -1,5 +1,6 @@
 'use strict'
 const http = require('http');
+const { useReducer } = require('react');
 const WebSocket = require('ws');
 
 console.log("--- Creating Websocket servers for all Rooms");
@@ -32,7 +33,7 @@ wsServer3001.on('connection', ws => {
   ws.on('message', (message) => {
     console.log('3001: ' + message);
     const parsedMessage = (JSON.parse(message));
-    const { user, newMessage } = parsedMessage;
+    const { user, newMessage, userClosed } = parsedMessage;
 
     newMessage && console.log(`New Message: ${newMessage}!`);
     newMessage && history3001.push({ id: history3001.length, newMessage, time: new Date() });
@@ -42,7 +43,12 @@ wsServer3001.on('connection', ws => {
     user && users3001.push(user)
     user && connections3001.map(ws => ws.send(JSON.stringify({ users: users3001 })));
 
+    userClosed && console.log(`User quit: ${userClosed}`)
+    if (userClosed)
+      users3001 = users3001.filter(user => user != userClosed)
+
   })
+
 })
 
 wsServer3002.on('connection', ws => {

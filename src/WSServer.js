@@ -33,22 +33,28 @@ wsServer3001.on('connection', ws => {
   ws.on('message', (message) => {
     console.log('3001: ' + message);
     const parsedMessage = (JSON.parse(message));
-    const { user, newMessage, userClosed } = parsedMessage;
+    const { type, data } = parsedMessage;
+    console.log(`${type}: ${data}`);
 
-    newMessage && console.log(`New Message: ${newMessage}!`);
-    newMessage && history3001.push({ id: history3001.length, newMessage, time: new Date() });
-    newMessage && connections3001.map(ws => ws.send(JSON.stringify({ newMessage })));
-
-    user && console.log(`New User: ${user}!`);
-    user && users3001.push(user)
-    user && connections3001.map(ws => ws.send(JSON.stringify({ users: users3001 })));
-
-    userClosed && console.log(`User quit: ${userClosed}`)
-    if (userClosed)
-      users3001 = users3001.filter(user => user != userClosed)
-
+    switch (type) {
+      case 'newMessage':
+        history3001.push({ 
+          id: history3001.length,
+          data, time: new Date()
+        });
+        connections3001.map(ws => 
+          ws.send(JSON.stringify({ type, data }))
+        );
+          break;
+      case 'newUser':
+        users3001.push(data);
+        connections3001.map(ws => ws.send(JSON.stringify({ users: users3001 })));
+        break;
+      case 'userClosed':
+        users3001 = users3001.filter(user => user != data)
+        connections3001.map(ws => ws.send(JSON.stringify({ users: users3001 })));
+    }
   })
-
 })
 
 wsServer3002.on('connection', ws => {

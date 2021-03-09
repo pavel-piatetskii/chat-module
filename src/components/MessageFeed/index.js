@@ -14,7 +14,7 @@ export default function MessageFeed(props) {
   wss.onopen = (e) => {
     setMessages(prev => '')
 
-    wss.send(JSON.stringify({ user }))
+    wss.send(JSON.stringify({ type: 'newUser', data: user }))
 
     wss.onmessage = (rep) => {
       const { history } = JSON.parse(rep.data)
@@ -41,7 +41,7 @@ export default function MessageFeed(props) {
 
   const [newMessage, setNewMessage] = useState('');
   const sendMessage = function (newMessage) {
-    wss.send(JSON.stringify({ newMessage }))
+    wss.send(JSON.stringify({ type: 'newMessage', data: newMessage }))
     setNewMessage('')
   }
 

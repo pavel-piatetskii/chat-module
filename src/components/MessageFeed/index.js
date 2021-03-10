@@ -27,11 +27,18 @@ export default function MessageFeed(props) {
 
   // Action when client receives message
   wss.onmessage = (rep) => {
-    console.log(rep.data)
-    const { newMessage, users } = JSON.parse(rep.data)
-    
-    newMessage && addMessage({ id: messages.length, time: new Date(), message: newMessage });
-    users && createUsersObject(users);
+    const { type, data } = JSON.parse(rep.data);
+    switch (type) {
+      case 'newMessage':
+        addMessage({
+          id: messages.length,
+          time: new Date(),
+          message: data
+        });
+        break;
+      case 'users':
+        createUsersObject(data);
+    }
   }
 
   // Action on closing connection

@@ -2,7 +2,7 @@
 const http = require('http');
 const WebSocket = require('ws');
 
-console.log("--- Creating Websocket servers for all Rooms");
+console.log('*** CREATING ROOMS');
 const rooms = {
   '1': {
     server: new WebSocket.Server({ port: 3001 }),
@@ -47,16 +47,16 @@ for (const room in rooms) {
           break;
         case 'newUser':
           users.push(data);
-          connections.map(ws => ws.send(JSON.stringify({ users })));
+          connections.map(ws => ws.send(JSON.stringify({ type: 'users', data: users })));
           break;
         case 'userClosed':
           users = users.filter(user => user != data)
-          connections.map(ws => ws.send(JSON.stringify({ users })));
+          connections.map(ws => ws.send(JSON.stringify({ type: 'users', data: users })));
       }
     })
   })
 
-  console.log("***ALL ROOMS CREATED");
+  console.log(`*** CREATED ROOM ON PORT ${port}`);
 
 }
-console.log("***ALL ROOMS CREATED");
+console.log("*** ALL ROOMS CREATED");

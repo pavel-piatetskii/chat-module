@@ -22,13 +22,13 @@ const rooms = {
 
 for (const room in rooms) {
 
-  const { server, port, connections, history, } = rooms[room];
+  const { server, port, connections, history } = rooms[room];
   let { users } = rooms[room];
 
   server.on('connection', ws => {
     console.log(`New connection on port ${port}`)
 
-    ws.send(JSON.stringify({ history }));
+    ws.send(JSON.stringify({ type: 'history', data: history }));
     connections.push(ws);
 
     ws.on('message', (message) => {
@@ -39,7 +39,7 @@ for (const room in rooms) {
         case 'newMessage':
           history.push({
             id: history.length,
-            data, time: new Date()
+            message: data, time: new Date()
           });
           connections.map(ws =>
             ws.send(JSON.stringify({ type, data }))

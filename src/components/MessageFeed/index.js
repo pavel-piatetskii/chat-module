@@ -13,22 +13,28 @@ export default function MessageFeed(props) {
   // Action when client opens a websocket connection
   wss.onopen = (e) => {
     setMessages(prev => '')
-
     wss.send(JSON.stringify({ type: 'newUser', data: user }))
 
-    wss.onmessage = (rep) => {
-      const { history } = JSON.parse(rep.data)
-      history && history.map(element => {
-        const { id, message, time } = element;
-        addMessage({ id, time: new Date(time), message })
-      })     
-    }
+    //wss.onmessage = (rep) => {
+    //  const { history } = JSON.parse(rep.data)
+    //  history && history.map(element => {
+    //    const { id, message, time } = element;
+    //    addMessage({ id, time: new Date(time), message })
+    //  })     
+    //}
   }
 
   // Action when client receives message
   wss.onmessage = (rep) => {
+    console.log(rep.data)
     const { type, data } = JSON.parse(rep.data);
     switch (type) {
+      case 'history':
+        data.map(element => {
+          const { id, message, time } = element;
+          addMessage({ id, time: new Date(time), message })
+        });
+        break;
       case 'newMessage':
         addMessage({
           id: messages.length,

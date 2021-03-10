@@ -14,14 +14,6 @@ export default function MessageFeed(props) {
   wss.onopen = (e) => {
     setMessages(prev => '')
     wss.send(JSON.stringify({ type: 'newUser', data: user }))
-
-    //wss.onmessage = (rep) => {
-    //  const { history } = JSON.parse(rep.data)
-    //  history && history.map(element => {
-    //    const { id, message, time } = element;
-    //    addMessage({ id, time: new Date(time), message })
-    //  })     
-    //}
   }
 
   // Action when client receives message
@@ -31,15 +23,16 @@ export default function MessageFeed(props) {
     switch (type) {
       case 'history':
         data.map(element => {
-          const { id, message, time } = element;
-          addMessage({ id, time: new Date(time), message })
+          const { id, message, time, sender } = element;
+          addMessage({ id, time: new Date(time), message, sender })
         });
         break;
       case 'newMessage':
         addMessage({
           id: messages.length,
           time: new Date(),
-          message: data
+          message: data.newMessage,
+          sender: data.sender
         });
         break;
       case 'users':
@@ -54,7 +47,7 @@ export default function MessageFeed(props) {
 
   const [newMessage, setNewMessage] = useState('');
   const sendMessage = function (newMessage) {
-    wss.send(JSON.stringify({ type: 'newMessage', data: newMessage }))
+    wss.send(JSON.stringify({ type: 'newMessage', data: { sender: user, newMessage } }))
     setNewMessage('')
   }
 
@@ -63,7 +56,10 @@ export default function MessageFeed(props) {
       <h2 className="message-feed__header">{props.roomName}</h2>
       {messages && messages.map((message) => (
           <article className="message-feed__message" key={message.id}>
-            <mark className="message-feed__message__time">{message.time.toLocaleString('en-US').split(',')[1]}</mark>
+            <div className="message-feed__message__sender-time">
+              <mark className="message-feed__message__sender-time__sender">{message.sender}</mark>
+              <mark className="message-feed__message__sender-time__time">{message.time.toLocaleString('en-US').split(',')[1]}</mark>
+            </div>
             <p className="message-feed__message__content">{message.message}</p>
           </article>
         )) }

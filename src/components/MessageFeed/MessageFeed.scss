@@ -22,10 +22,18 @@
       margin: 0 10px;
     }
 
-    &__time {
-      font-size: 0.75rem;
-      padding: 0.6em 0;
-      width: 7em;
+    &__sender-time {
+      flex-direction: column;
+
+      &__sender {
+        font-size: 0.75rem;
+      }
+
+      &__time {
+        font-size: 0.75rem;
+        padding: 0.6em 0;
+        width: 7em;
+      }
     }
   }
 

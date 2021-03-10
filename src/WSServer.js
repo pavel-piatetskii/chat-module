@@ -39,7 +39,9 @@ for (const room in rooms) {
         case 'newMessage':
           history.push({
             id: history.length,
-            message: data, time: new Date()
+            sender: data.sender,
+            message: data.newMessage,
+            time: new Date(),
           });
           connections.map(ws =>
             ws.send(JSON.stringify({ type, data }))

@@ -54,6 +54,7 @@ export default function MessageFeed(props) {
   return (
     <section className="message-feed">
       <h2 className="message-feed__header">{props.roomName}</h2>
+      <div className="message-feed__messages">
       {messages && messages.map((message) => (
           <article className="message-feed__message" key={message.id}>
             <div className="message-feed__message__sender-time">
@@ -63,6 +64,7 @@ export default function MessageFeed(props) {
             <p className="message-feed__message__content">{message.message}</p>
           </article>
         )) }
+      </div>
       <form
         className="message-feed__form"
         onSubmit={event => event.preventDefault()}

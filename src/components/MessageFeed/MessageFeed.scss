@@ -4,10 +4,27 @@
   max-width: 750px;
   width: 100%;
   flex-direction: column;
+  margin: 0 10px;
 
   &__header {
     color: chartreuse;
     padding-left: 25px;
+    height: 5%;
+  }
+
+  &__messages {
+    flex-direction: column;
+    height: 88%;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      width: 6px!important;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0,0,0,.2);
+    }
+    
   }
 
   &__message {
@@ -38,7 +55,9 @@
   }
 
   &__form {
+    height: 2em;
     margin: 10px;
+    overflow: auto;
 
     &__input {
       border-radius: 6px;

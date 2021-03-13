@@ -8,7 +8,7 @@ export default function GetUserName(props) {
 
   return (
     <section className="get-user">
-      <h1>Hi! Looks like you're new here. What's your name?</h1>
+      <h1 className="get-user__greeting">Hi! Looks like you're new here! What's your name?</h1>
       <form
         className="get-user__form"
         onSubmit={event => event.preventDefault()}

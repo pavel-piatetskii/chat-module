@@ -1,0 +1,42 @@
+.get-user {
+  //position: relative;
+  //top: 15vh;
+  //left: 20vh;
+
+
+  flex-direction: column;
+  align-items: center;
+
+  &__greeting {
+    color: cadetblue;
+    background-color: aliceblue;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 5px 5px green;
+  }
+
+  &__form {
+    height: 2.5em;
+    
+    &__input {
+      font-size: 1.5rem;
+      width: 10em;
+      border-width: 0;
+      border-radius: 5px;
+      box-shadow: 5px 5px green;
+      margin-right: 50px;
+      background-color: aliceblue;
+      color: cadetblue;
+      padding-left: 0.5em;
+    }
+
+    &__button {
+      border-width: 0;
+      border-radius: 5px;
+      font-size: 1rem;
+      color: aliceblue;
+      background-color: cadetblue;
+      box-shadow: 5px 5px green;
+    }
+  }
+}

@@ -3,7 +3,10 @@
 
   &__header {
     color: cyan;
+    background-color: rgb(214, 126, 64);
     text-align: center;
+    margin: 0;
+    padding: 20px;
   }
 
   &__rooms {
@@ -28,6 +31,9 @@
         border: yellowgreen solid 3px ;
         margin: 3px 10px;
         padding: 5px;
+        :hover{
+          background-color: whitesmoke;
+        }
       }
 
       &__name {

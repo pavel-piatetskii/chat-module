@@ -8,8 +8,11 @@
 
   &__header {
     color: chartreuse;
+    background-color: beige;
     padding-left: 25px;
     height: 5%;
+    margin: 0;
+    padding: 20px;
   }
 
   &__messages {
@@ -41,6 +44,7 @@
 
     &__sender-time {
       flex-direction: column;
+      justify-content: center;
 
       &__sender {
         font-size: 0.75rem;

@@ -1,18 +1,21 @@
+@import 'styles/variables.scss';
+
 .message-feed {
-  background-color: burlywood;
+  background-color: $color-light-medium;
   min-width: 250px;
   max-width: 750px;
   width: 100%;
   flex-direction: column;
   margin: 0 10px;
-
+  border-radius: 5px;
+  
   &__header {
-    color: chartreuse;
-    background-color: beige;
+    color: $color-light;
+    background-color: $color-dark;
     padding-left: 25px;
-    height: 5%;
     margin: 0;
     padding: 20px;
+    border-radius: 5px 5px 0 0;
   }
 
   &__messages {

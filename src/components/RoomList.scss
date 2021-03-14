@@ -1,45 +1,47 @@
+@import 'styles/variables.scss';
+
 .room-list {
-  background-color: chocolate;
+  background-color: $color-light;
+  border-radius: 5px;
 
   &__header {
-    color: cyan;
-    background-color: rgb(214, 126, 64);
+    color: $color-light;
+    background-color: $color-dark;
     text-align: center;
     margin: 0;
     padding: 20px;
+    border-radius: 5px 5px 0 0;
   }
 
   &__rooms {
     flex-direction: column;
     
-    :hover{
-      background-color: burlywood
-    }
-
+    
     &__room {
       justify-content: start;
       cursor: pointer;
-      margin: 0 5px;
-      border-radius: 5px;
-
+      padding: 5px 0;
+      
+      &:hover {
+        background-color: $color-medium
+      }
 
       &__image {
         width: 50px;
         height: 50px;
         border-radius: 25%;
-        background-color: whitesmoke;
+        background-color: $color-light;
         border: yellowgreen solid 3px ;
         margin: 3px 10px;
         padding: 5px;
-        :hover{
-          background-color: whitesmoke;
-        }
       }
 
       &__name {
         padding: 10% 0;
         font-size: 1.2rem;
         font-weight: bold;
+
+
       }
     }
   }

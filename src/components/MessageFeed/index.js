@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import "./MessageFeed.scss"
 
 export default function MessageFeed(props) {
@@ -8,6 +8,13 @@ export default function MessageFeed(props) {
   const [messages, setMessages] = useState('');
   const addMessage = function (newMessage) {
     setMessages((prev) => [...prev, newMessage])
+  }
+
+  // Implement useRef to scroll down to every new message in the feed
+  const messagesScroll = useRef(null);
+  const scrollToLast = () => {
+    const el = messagesScroll.current;
+    el.scrollTop = el.scrollHeight;
   }
 
   // Action when client opens a websocket connection
@@ -37,7 +44,9 @@ export default function MessageFeed(props) {
         break;
       case 'users':
         createUsersObject(data);
-    }
+      }
+      // Call scrolling function on every new message or on history load
+      scrollToLast(); 
   }
 
   // Action on closing connection
@@ -51,10 +60,11 @@ export default function MessageFeed(props) {
     setNewMessage('')
   }
 
+
   return (
     <section className="message-feed">
       <h2 className="message-feed__header">{props.roomName}</h2>
-      <div className="message-feed__messages">
+      <div ref={messagesScroll} className="message-feed__messages">
       {messages && messages.map((message) => (
           <article className="message-feed__message" key={message.id}>
             <div className="message-feed__message__sender-time">

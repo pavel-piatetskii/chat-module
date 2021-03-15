@@ -62,7 +62,7 @@
   }
 
   &__form {
-    height: 2em;
+    min-height: 2em;
     margin: 10px;
     overflow: auto;
 
@@ -73,6 +73,7 @@
       padding: 0.4em;
       width: 30em;
       margin: 0 25px 0 105px;
+      height: 0.75em;
     }
   }
 }

@@ -24,29 +24,32 @@ const data = {
 
 function App() {
 
-  const [currentRoom, setCurrentRoom] = useState('1');
+  const [currentRoom, setCurrentRoom] = useState(localStorage.getItem('currentRoom') || '');
   const [user, setUser] = useState(localStorage.getItem('username') || '');
   const [usersInRoom, setUsersInRoom] = useState('');
-
-  useEffect(() => {
-    console.log(user)
-    user && setWSS(new WebSocket(`ws://192.168.1.163:${data.rooms[currentRoom].port}`));
-
-  }, [currentRoom]);
-  const [wss, setWSS] = useState('');
-
+  
   const saveUser = function(username) {
     setUser(username);
     localStorage.setItem('username', username);
     setCurrentRoom('1');
+    localStorage.setItem('currentRoom', '1');
   };
+  
+  useEffect(() => {
+    user && !wss && setWSS(new WebSocket(`ws://192.168.1.163:${data.rooms[currentRoom].port}`));
+    localStorage.setItem('wss', wss);
+  }, [currentRoom]);
+  const [wss, setWSS] = useState(localStorage.getItem('wss') || '');
+
 
 
   
   const switchRoom = function(roomNumber) {
     wss.send(JSON.stringify({ type: 'userClosed', data: user }))
     wss.close();
+    setWSS(prev => '');
     setCurrentRoom(roomNumber);
+    localStorage.setItem('currentRoom', roomNumber);
   };
 
   const createUsersObject = function(users) {

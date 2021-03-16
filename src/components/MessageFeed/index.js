@@ -41,12 +41,12 @@ export default function MessageFeed(props) {
           message: data.newMessage,
           sender: data.sender
         });
+        scrollToLast(); 
         break;
       case 'users':
         createUsersObject(data);
       }
       // Call scrolling function on every new message or on history load
-      scrollToLast(); 
   }
 
   // Action on closing connection

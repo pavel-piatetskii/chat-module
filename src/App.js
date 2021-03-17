@@ -3,6 +3,7 @@ import MessageFeed from "components/MessageFeed";
 import UserList from "components/UserList";
 import RoomList from "components/RoomList";
 import GetUserName from "components/GetUserName";
+import 'styles/responsive.scss'
 
 const data = {
   rooms: {

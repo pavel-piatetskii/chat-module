@@ -21,10 +21,14 @@ export default function MessageFeed(props) {
   wss.onopen = (e) => {
     setMessages(prev => '');
     const userSaved = localStorage.getItem('username');
-    console.log(userSaved)
-    wss.send(JSON.stringify({ type: 'newUser', data: user }));
+    console.log(userSaved);
+    if (!userSaved) {
+      wss.send(JSON.stringify({ type: 'newUser', data: user }));
+      localStorage.setItem('username', user);
+    } else {
+      wss.send(JSON.stringify({ type: 'foo', data: 'bar' }));
+    }
 
-    localStorage.setItem('username', user);
   }
 
   // Action when client receives message

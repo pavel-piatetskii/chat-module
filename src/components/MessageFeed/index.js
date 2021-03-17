@@ -19,8 +19,12 @@ export default function MessageFeed(props) {
 
   // Action when client opens a websocket connection
   wss.onopen = (e) => {
-    setMessages(prev => '')
-    wss.send(JSON.stringify({ type: 'newUser', data: user }))
+    setMessages(prev => '');
+    const userSaved = localStorage.getItem('username');
+    console.log(userSaved)
+    wss.send(JSON.stringify({ type: 'newUser', data: user }));
+
+    localStorage.setItem('username', user);
   }
 
   // Action when client receives message

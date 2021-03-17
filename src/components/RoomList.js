@@ -4,7 +4,7 @@ import "./RoomList.scss";
 
 export default function RoomList(props) {
 
-  const { rooms, changeRoom } = props;
+  const { rooms, changeRoom, currentRoom } = props;
 
   return (
     <section className="room-list list-section">
@@ -14,7 +14,7 @@ export default function RoomList(props) {
           <article
             className="room-list__rooms__room"
             key={room.id}
-            onClick={() => changeRoom(room.id)}
+            onClick={() => (currentRoom !== room.id) ? changeRoom(room.id) : ''}
           >
             <img className="room-list__rooms__room__image" src={room.image}></img>
             <mark className="room-list__rooms__room__name">{room.name}</mark>

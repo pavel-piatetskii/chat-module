@@ -30,7 +30,7 @@ function App() {
   
   const saveUser = function(username) {
     setUser(username);
-    localStorage.setItem('username', username);
+    //localStorage.setItem('username', username);
     setCurrentRoom('1');
     localStorage.setItem('currentRoom', '1');
   };
@@ -45,9 +45,10 @@ function App() {
 
   
   const switchRoom = function(roomNumber) {
-    wss.send(JSON.stringify({ type: 'userClosed', data: user }))
+    wss.send(JSON.stringify({ type: 'userClosed', data: user }));
     wss.close();
     setWSS(prev => '');
+    localStorage.setItem('username', '');
     setCurrentRoom(roomNumber);
     localStorage.setItem('currentRoom', roomNumber);
   };

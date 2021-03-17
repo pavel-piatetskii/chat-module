@@ -53,7 +53,9 @@ for (const room in rooms) {
           break;
         case 'userClosed':
           users = users.filter(user => user != data)
+        default:
           connections.map(ws => ws.send(JSON.stringify({ type: 'users', data: users })));
+
       }
     })
   })

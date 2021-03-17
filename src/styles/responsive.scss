@@ -2,7 +2,7 @@
 
   .App {
     padding: 0;
-    height: 91vh;
+    height: 89vh;
   }
 
   .main {
@@ -39,14 +39,14 @@
   }
   .message-feed {
     width: 100vw;
-    height: 63vh;
+    height: 65vh;
     margin: 0;
 
     &__form {
       width: 95%;
 
       &__input {
-        width: 65%;
+        width: 75%;
         margin-left: 10px;
       }
     }
@@ -61,6 +61,12 @@
 
       &__room{
         flex-direction: column;
+
+        &__image {
+          width: 5vh;
+          height: 5vh;
+          padding: 0;
+        }
 
         &__name {
           font-size: 1.75vh;

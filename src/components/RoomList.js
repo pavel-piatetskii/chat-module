@@ -1,5 +1,6 @@
 import React from 'react';
 import "./RoomList.scss";
+import 'styles/responsive.scss'
 
 
 export default function RoomList(props) {

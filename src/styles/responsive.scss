@@ -2,6 +2,7 @@
 
   .App {
     padding: 0;
+    height: 91vh;
   }
 
   .main {
@@ -9,9 +10,9 @@
     height: 100%;
   }
 
-  h2 {
+  .user-list__header, .message-feed__header, .room-list__header {
     font-size: 2.5vh;
-    height: 0.5em;
+    height: 1em;
     padding: 0.25em;
     text-align: center;
   }
@@ -22,12 +23,23 @@
     &__users{
       flex-direction: row;
       overflow-x: scroll;
+
+      &__user{
+        flex-direction: column;
+
+        &__name {
+          font-size: 1.75vh;
+          padding: 0;
+          margin-bottom: 0.2em;
+          text-align: center;
+        }
+      }
     }
 
   }
   .message-feed {
     width: 100vw;
-    height: 50vh;
+    height: 63vh;
     margin: 0;
 
     &__form {
@@ -42,6 +54,22 @@
 
   .room-list {
     width: 100%;
+
+    &__rooms{
+      flex-direction: row;
+      overflow-x: scroll;
+
+      &__room{
+        flex-direction: column;
+
+        &__name {
+          font-size: 1.75vh;
+          padding: 0;
+          margin-bottom: 0.2em;
+          text-align: center;
+        }
+      }
+    }
   }
 
 }

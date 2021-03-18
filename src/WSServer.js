@@ -27,7 +27,9 @@ const nameserver = new WebSocket.Server({ port: 2999 });
 let names = [];
 nameserver.on('connection', ws => {
   ws.on('message', message => {
-    const data = JSON.parse(message);
+    console.log(names)
+    const { data } = JSON.parse(message);
+    console.log(data)
     const nameExists = names.includes(data);
     ws.send(JSON.stringify({ nameExists }));
   })

@@ -36,4 +36,14 @@
       box-shadow: 5px 5px $color-dark;
     }
   }
+
+  &__nameexists {
+    font-size: 1rem;
+    color: $color-medium;
+    background-color: $color-light;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: 5px 5px $color-dark;    
+  }
 }

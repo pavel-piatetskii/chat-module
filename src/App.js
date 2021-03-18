@@ -30,6 +30,7 @@ function App() {
   const [currentRoom, setCurrentRoom] = useState(localStorage.getItem('currentRoom') || '');
   const [user, setUser] = useState(localStorage.getItem('username') || '');
   const [usersInRoom, setUsersInRoom] = useState('');
+  const [existsMessage, setExistsMessage] = useState(false);
   
   /**
    * 1. Establish a connection with a name server on the port 2999
@@ -55,6 +56,8 @@ function App() {
         setCurrentRoom('1');
         localStorage.setItem('currentRoom', '1');
         nameserver.close();
+      } else {
+        setExistsMessage(true);
       }
     }
   };
@@ -92,7 +95,7 @@ function App() {
   return (
     <div className="App">
       {!user && (
-        <GetUserName saveUser={saveUser}/>
+        <GetUserName saveUser={saveUser} existsMessage={existsMessage}/>
       )}
       {user && <div className="main">
         {usersInRoom && <UserList users={usersInRoom}/>}

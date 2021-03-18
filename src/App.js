@@ -64,9 +64,10 @@ function App() {
   
   useEffect(() => {
     user && !wss && setWSS(new WebSocket(`ws://${host}:${data.rooms[currentRoom].port}`));
-    localStorage.setItem('wss', wss);
+    //localStorage.setItem('wss', wss);
   }, [currentRoom]);
-  const [wss, setWSS] = useState(localStorage.getItem('wss') || '');
+  //const [wss, setWSS] = useState(localStorage.getItem('wss') || '');
+  const [wss, setWSS] = useState('');
 
 
 
@@ -81,7 +82,6 @@ function App() {
   };
 
   const createUsersObject = function(users) {
-    //setUsersInRoom = (prev) => '';
     let usersObject = {};
     users.map((user, index) => 
       usersObject[index] = {

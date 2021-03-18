@@ -22,6 +22,8 @@ const data = {
   }
 };
 
+const host = window.location.hostname;
+
 
 function App() {
 
@@ -29,16 +31,36 @@ function App() {
   const [user, setUser] = useState(localStorage.getItem('username') || '');
   const [usersInRoom, setUsersInRoom] = useState('');
   
+  /**
+   * 1. Establish a connection with a name server on the port 2999
+   * 2. Send a username parameter there
+   * 3. If "false" received (username doesn't exist in any room), 
+   *    save name and show the chat.
+   * 4. If "true" received (username exists in one of rooms), show the 
+   *    error message
+   * @param {*} username 
+   */
   const saveUser = function(username) {
-    setUser(username);
-    //localStorage.setItem('username', username);
-    setCurrentRoom('1');
-    localStorage.setItem('currentRoom', '1');
+    const nameserver = new WebSocket(`ws://${host}:2999`)
+
+    nameserver.onopen = () => {
+      nameserver.send(JSON.stringify({ data: username }));
+    }
+
+    nameserver.onmessage = (rep) => {
+      const { nameExists } = JSON.parse(rep.data);
+      if (!nameExists) {
+        setUser(username);
+        localStorage.setItem('username', username);
+        setCurrentRoom('1');
+        localStorage.setItem('currentRoom', '1');
+        nameserver.close();
+      }
+    }
   };
   
   useEffect(() => {
-    console.log(window.location.hostname)
-    user && !wss && setWSS(new WebSocket(`ws://${window.location.hostname}:${data.rooms[currentRoom].port}`));
+    user && !wss && setWSS(new WebSocket(`ws://${host}:${data.rooms[currentRoom].port}`));
     localStorage.setItem('wss', wss);
   }, [currentRoom]);
   const [wss, setWSS] = useState(localStorage.getItem('wss') || '');

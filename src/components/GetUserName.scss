@@ -3,6 +3,8 @@
 .get-user {
   flex-direction: column;
   align-items: center;
+  height: 100%;
+  padding-top: 35vh;
 
   &__greeting {
     color: $color-medium;
@@ -39,6 +41,7 @@
 
   &__nameexists {
     font-size: 1rem;
+    font-weight: bold;
     color: $color-medium;
     background-color: $color-light;
     padding: 5px;

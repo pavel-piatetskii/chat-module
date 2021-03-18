@@ -48,7 +48,7 @@ for (const room in rooms) {
           );
           break;
         case 'newUser':
-          users.push(data);
+          if (!users.includes(data)) users.push(data);
           connections.map(ws => ws.send(JSON.stringify({ type: 'users', data: users })));
           break;
         case 'userClosed':

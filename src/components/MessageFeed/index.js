@@ -22,12 +22,14 @@ export default function MessageFeed(props) {
     setMessages(prev => '');
     const userSaved = localStorage.getItem('username');
     console.log(userSaved);
-    if (!userSaved) {
-      wss.send(JSON.stringify({ type: 'newUser', data: user }));
-      localStorage.setItem('username', user);
-    } else {
-      wss.send(JSON.stringify({ type: 'foo', data: 'bar' }));
-    }
+    //if (!userSaved) {
+    //  wss.send(JSON.stringify({ type: 'newUser', data: user }));
+    //  localStorage.setItem('username', user);
+    //} else {
+    //  wss.send(JSON.stringify({ type: 'foo', data: 'bar' }));
+    //}
+    wss.send(JSON.stringify({ type: 'newUser', data: user }));
+    localStorage.setItem('username', user);
 
   }
 

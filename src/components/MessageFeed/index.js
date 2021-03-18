@@ -57,6 +57,8 @@ export default function MessageFeed(props) {
         createUsersObject(data);
       }
       // Call scrolling function on every new message or on history load
+      scrollToLast(); 
+
   }
 
   // Action on closing connection

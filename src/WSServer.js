@@ -1,6 +1,9 @@
 'use strict'
-const http = require('http');
+//const http = require('http');
 const WebSocket = require('ws');
+
+
+//console.log('*** NAMESERVER CREATED')
 
 console.log('*** CREATING ROOMS');
 const rooms = {
@@ -19,6 +22,16 @@ const rooms = {
     users: [],
   },
 }
+
+const nameserver = new WebSocket.Server({ port: 2999 });
+let names = [];
+nameserver.on('connection', ws => {
+  ws.on('message', message => {
+    const data = JSON.parse(message);
+    const nameExists = names.includes(data);
+    ws.send(JSON.stringify({ nameExists }));
+  })
+});
 
 for (const room in rooms) {
 
@@ -48,11 +61,15 @@ for (const room in rooms) {
           );
           break;
         case 'newUser':
-          if (!users.includes(data)) users.push(data);
+          if (!users.includes(data)) {
+            users.push(data);
+            names.push(data);
+          };
           connections.map(ws => ws.send(JSON.stringify({ type: 'users', data: users })));
           break;
         case 'userClosed':
-          users = users.filter(user => user != data)
+          users = users.filter(user => user != data);
+          names = names.filter(user => user != data);
         default:
           connections.map(ws => ws.send(JSON.stringify({ type: 'users', data: users })));
 

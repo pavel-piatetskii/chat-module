@@ -37,7 +37,8 @@ function App() {
   };
   
   useEffect(() => {
-    user && !wss && setWSS(new WebSocket(`ws://192.168.1.163:${data.rooms[currentRoom].port}`));
+    console.log(window.location.hostname)
+    user && !wss && setWSS(new WebSocket(`ws://${window.location.hostname}:${data.rooms[currentRoom].port}`));
     localStorage.setItem('wss', wss);
   }, [currentRoom]);
   const [wss, setWSS] = useState(localStorage.getItem('wss') || '');

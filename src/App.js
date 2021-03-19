@@ -5,6 +5,9 @@ import RoomList from "components/RoomList";
 import GetUserName from "components/GetUserName";
 import 'styles/responsive.scss'
 
+//const PORT = env.PORT || 80;
+const PORT = 3001;
+
 const data = {
   rooms: {
     '1': {
@@ -32,8 +35,14 @@ function App() {
   const [usersInRoom, setUsersInRoom] = useState('');
   const [existsMessage, setExistsMessage] = useState(false);
   
+  const wss = new WebSocket(`ws://${host}:${PORT}`);
+
+  wss.onmessage = (rep) => {
+    console.log(JSON.parse(rep));
+  }
+
   /**
-   * 1. Establish a connection with a name server on the port 2999
+   * 1. Establish a connection with a ws server API
    * 2. Send a username parameter there
    * 3. If "false" received (username doesn't exist in any room), 
    *    save name and show the chat.
@@ -42,32 +51,38 @@ function App() {
    * @param {*} username 
    */
   const saveUser = function(username) {
-    const nameserver = new WebSocket(`ws://${host}:2999`)
 
-    nameserver.onopen = () => {
-      nameserver.send(JSON.stringify({ data: username }));
-    }
+    wss.send(JSON.stringify({
+      type: 'newUser',
+      data: { username, room: currentRoom}
+    }));
 
-    nameserver.onmessage = (rep) => {
-      const { nameExists } = JSON.parse(rep.data);
-      if (!nameExists) {
-        setUser(username);
-        localStorage.setItem('username', username);
-        setCurrentRoom('1');
-        localStorage.setItem('currentRoom', '1');
-        nameserver.close();
-      } else {
-        setExistsMessage(true);
-      }
-    }
+    //nameserver.onopen = () => {
+    //  nameserver.send(JSON.stringify({ data: username }));
+    //}
+//
+    //nameserver.onmessage = (rep) => {
+    //  const { nameExists } = JSON.parse(rep.data);
+    //  if (!nameExists) {
+    //    setUser(username);
+    //    localStorage.setItem('username', username);
+    //    setCurrentRoom('1');
+    //    localStorage.setItem('currentRoom', '1');
+    //    nameserver.close();
+    //  } else {
+    //    setExistsMessage(true);
+    //  }
+    //}
+
+
   };
   
   useEffect(() => {
-    user && !wss && setWSS(new WebSocket(`ws://${host}:${data.rooms[currentRoom].port}`));
+    //user && !wss && setWSS(new WebSocket(`ws://${host}:${data.rooms[currentRoom].port}`));
     //localStorage.setItem('wss', wss);
   }, [currentRoom]);
   //const [wss, setWSS] = useState(localStorage.getItem('wss') || '');
-  const [wss, setWSS] = useState('');
+  const [isConnected, setIsConnected] = useState('');
 
 
 
@@ -75,7 +90,7 @@ function App() {
   const switchRoom = function(roomNumber) {
     wss.send(JSON.stringify({ type: 'userClosed', data: user }));
     wss.close();
-    setWSS(prev => '');
+    //setWSS(prev => '');
     localStorage.setItem('username', '');
     setCurrentRoom(roomNumber);
     localStorage.setItem('currentRoom', roomNumber);
@@ -99,7 +114,7 @@ function App() {
       )}
       {user && <div className="main">
         {usersInRoom && <UserList users={usersInRoom}/>}
-        {wss && <MessageFeed
+        {isConnected && <MessageFeed
           users={data.users}
           roomName={data.rooms[currentRoom].name}
           wss={wss}

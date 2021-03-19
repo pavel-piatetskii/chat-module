@@ -37,8 +37,18 @@ function App() {
   
   const wss = new WebSocket(`ws://${host}:${PORT}`);
 
-  wss.onmessage = (rep) => {
-    console.log(JSON.parse(rep));
+  wss.onmessage = (message) => {
+    console.log(JSON.parse(message.data));
+    const { type, data } = JSON.parse(message.data);
+    switch (type) {
+
+      case 'init':
+        console.log('init handler');
+        break;
+      case 'userExist':
+        console.log('User exist');
+        break;
+    }
   }
 
   /**

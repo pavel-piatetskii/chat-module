@@ -30,7 +30,8 @@ const host = window.location.hostname;
 
 function App() {
 
-  const [currentRoom, setCurrentRoom] = useState(localStorage.getItem('currentRoom') || '1');
+  //const [currentRoom, setCurrentRoom] = useState(localStorage.getItem('currentRoom') || '1');
+  const [currentRoom, setCurrentRoom] = useState('1');
   const [user, setUser] = useState(localStorage.getItem('username') || '');
   const [usersInRoom, setUsersInRoom] = useState('');
   const [existsMessage, setExistsMessage] = useState(false);
@@ -44,11 +45,12 @@ function App() {
 
       case 'init':
         console.log('init handler');
-        const { username, users, history } = data;
+        const { username, roomsData } = data;
         setUser(username);
         localStorage.setItem('username', username);
         setCurrentRoom('1');
-        localStorage.setItem('currentRoom', '1');
+        //localStorage.setItem('currentRoom', '1');
+        //createUsersObject(users);
 
         break;
       case 'userExist':

@@ -12,7 +12,7 @@ const PORT = 3001;
 const wss = new WebSocket(`ws://${host}:${PORT}`);
 
 function App() {
-  
+
   const [rooms, setRooms] = useState('');
   //const [currentRoom, setCurrentRoom] = useState('1');
   const [currentRoom, setCurrentRoom] = useState(localStorage.getItem('currentRoom') || '1');
@@ -23,42 +23,39 @@ function App() {
 
 
 
-  //useEffect(() => {
-  //  setWSS(new WebSocket(`ws://${host}:${PORT}`));
-  //  setCurrentRoom('1')
-  //}, []);
-  const [isConnected, setIsConnected] = useState('');
-  
-    wss.onmessage = (message) => {
-      console.log(JSON.parse(message.data));
-      const { type, data } = JSON.parse(message.data);
-      switch (type) {
-        
-        case 'init':
-          console.log('init handler');
-          const { username, roomsData } = data;
-          setUser(prev => username);
-          //localStorage.setItem('username', username);
-          setRooms(roomsData);
-          console.log(rooms);
-          setCurrentRoom('1');
-          //localStorage.setItem('currentRoom', '1');
-          //createUsersObject(users);
-          
-          break;
-          case 'userExist':
-            console.log('User exist');
-            setExistsMessage(true);
-            break;
-          }
-        //}
-      }
-  
-  
-  //const ftest = function(wss) {
-    
 
-      //wss && ftest(wss);
+  const [isConnected, setIsConnected] = useState('');
+
+  wss.onmessage = (message) => {
+    console.log(JSON.parse(message.data));
+    const { type, data } = JSON.parse(message.data);
+    switch (type) {
+
+      case 'init':
+        console.log('init handler');
+        const { username, roomsData } = data;
+        setUser(username);
+        console.log('user ' + user)
+        //localStorage.setItem('username', username);
+        setRooms(roomsData);
+        console.log('rooms ' + rooms);
+        setCurrentRoom('1');
+        //localStorage.setItem('currentRoom', '1');
+        createUsersObject(roomsData[currentRoom].users);
+
+        break;
+      case 'userExist':
+        console.log('User exist');
+        setExistsMessage(true);
+        break;
+    }
+    //}
+  }
+
+
+  //const ftest = function(wss) {
+
+
 
   /**
    * 1. Establish a connection with a ws server API
@@ -69,20 +66,20 @@ function App() {
    *    error message
    * @param {*} username 
    */
-  const saveUser = function(username) {
+  const saveUser = function (username) {
 
     wss.send(JSON.stringify({
       type: 'newUser',
-      data: { username, room: currentRoom}
+      data: { username, room: currentRoom }
     }));
   };
-  
 
 
 
 
-  
-  const switchRoom = function(roomNumber) {
+
+
+  const switchRoom = function (roomNumber) {
     wss.send(JSON.stringify({ type: 'userClosed', data: user }));
     wss.close();
     //setWSS(prev => '');
@@ -91,32 +88,32 @@ function App() {
     localStorage.setItem('currentRoom', roomNumber);
   };
 
-  const createUsersObject = function(users) {
+  const createUsersObject = function (users) {
     let usersObject = {};
-    users.map((user, index) => 
+    users.map((user, index) =>
       usersObject[index] = {
         id: index,
         name: user,
         avatar: `https://avatars.dicebear.com/4.5/api/gridy/${user}.svg`
       })
-    setUsersInRoom(usersObject)
+    setUsersInRoom(usersObject);
   }
 
   return (
     <div className="App">
       {!user && (
-        <GetUserName saveUser={saveUser} existsMessage={existsMessage}/>
+        <GetUserName saveUser={saveUser} existsMessage={existsMessage} />
       )}
       {user && <div className="main">
-        {usersInRoom && <UserList users={usersInRoom}/>}
-        { wss && <MessageFeed
+        {usersInRoom && <UserList users={usersInRoom} />}
+        {usersInRoom && <MessageFeed
           users={rooms[currentRoom].users}
           roomName={rooms[currentRoom].name}
           wss={wss}
           user={user}
           createUsersObject={createUsersObject}
         />}
-        <RoomList rooms={rooms} currentRoom={currentRoom} changeRoom={switchRoom}/>
+        <RoomList rooms={rooms} currentRoom={currentRoom} changeRoom={switchRoom} />
       </div>}
     </div>
   );

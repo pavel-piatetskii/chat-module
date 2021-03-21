@@ -5,60 +5,60 @@ import RoomList from "components/RoomList";
 import GetUserName from "components/GetUserName";
 import 'styles/responsive.scss'
 
+const host = window.location.hostname;
 //const PORT = env.PORT || 80;
 const PORT = 3001;
 
-const data = {
-  rooms: {
-    '1': {
-      id: 1,
-      name: 'Main Room',
-      image: 'http://forums.civfanatics.com/images/war_academy/civ5/civs/big/greece.png',
-      port: 3001
-    },
-    '2': {
-      id: 2,
-      name: 'Offtopic',
-      image: 'http://forums.civfanatics.com/images/war_academy/civ5/civs/big/aztec.png',
-      port:3002  
-    }
-  }
-};
-
-const host = window.location.hostname;
-
+const wss = new WebSocket(`ws://${host}:${PORT}`);
 
 function App() {
-
-  //const [currentRoom, setCurrentRoom] = useState(localStorage.getItem('currentRoom') || '1');
-  const [currentRoom, setCurrentRoom] = useState('1');
+  
+  const [rooms, setRooms] = useState('');
+  //const [currentRoom, setCurrentRoom] = useState('1');
+  const [currentRoom, setCurrentRoom] = useState(localStorage.getItem('currentRoom') || '1');
   const [user, setUser] = useState(localStorage.getItem('username') || '');
   const [usersInRoom, setUsersInRoom] = useState('');
   const [existsMessage, setExistsMessage] = useState(false);
+  //const [wss, setWSS] = useState('');
+
+
+
+  //useEffect(() => {
+  //  setWSS(new WebSocket(`ws://${host}:${PORT}`));
+  //  setCurrentRoom('1')
+  //}, []);
+  const [isConnected, setIsConnected] = useState('');
   
-  const wss = new WebSocket(`ws://${host}:${PORT}`);
+    wss.onmessage = (message) => {
+      console.log(JSON.parse(message.data));
+      const { type, data } = JSON.parse(message.data);
+      switch (type) {
+        
+        case 'init':
+          console.log('init handler');
+          const { username, roomsData } = data;
+          setUser(prev => username);
+          //localStorage.setItem('username', username);
+          setRooms(roomsData);
+          console.log(rooms);
+          setCurrentRoom('1');
+          //localStorage.setItem('currentRoom', '1');
+          //createUsersObject(users);
+          
+          break;
+          case 'userExist':
+            console.log('User exist');
+            setExistsMessage(true);
+            break;
+          }
+        //}
+      }
+  
+  
+  //const ftest = function(wss) {
+    
 
-  wss.onmessage = (message) => {
-    console.log(JSON.parse(message.data));
-    const { type, data } = JSON.parse(message.data);
-    switch (type) {
-
-      case 'init':
-        console.log('init handler');
-        const { username, roomsData } = data;
-        setUser(username);
-        localStorage.setItem('username', username);
-        setCurrentRoom('1');
-        //localStorage.setItem('currentRoom', '1');
-        //createUsersObject(users);
-
-        break;
-      case 'userExist':
-        console.log('User exist');
-        setExistsMessage(true);
-        break;
-    }
-  }
+      //wss && ftest(wss);
 
   /**
    * 1. Establish a connection with a ws server API
@@ -75,33 +75,9 @@ function App() {
       type: 'newUser',
       data: { username, room: currentRoom}
     }));
-
-    //nameserver.onopen = () => {
-    //  nameserver.send(JSON.stringify({ data: username }));
-    //}
-//
-    //nameserver.onmessage = (rep) => {
-    //  const { nameExists } = JSON.parse(rep.data);
-    //  if (!nameExists) {
-    //    setUser(username);
-    //    localStorage.setItem('username', username);
-    //    setCurrentRoom('1');
-    //    localStorage.setItem('currentRoom', '1');
-    //    nameserver.close();
-    //  } else {
-    //    setExistsMessage(true);
-    //  }
-    //}
-
-
   };
   
-  useEffect(() => {
-    //user && !wss && setWSS(new WebSocket(`ws://${host}:${data.rooms[currentRoom].port}`));
-    //localStorage.setItem('wss', wss);
-  }, [currentRoom]);
-  //const [wss, setWSS] = useState(localStorage.getItem('wss') || '');
-  const [isConnected, setIsConnected] = useState('');
+
 
 
 
@@ -133,14 +109,14 @@ function App() {
       )}
       {user && <div className="main">
         {usersInRoom && <UserList users={usersInRoom}/>}
-        { <MessageFeed
-          users={data.users}
-          roomName={data.rooms[currentRoom].name}
+        { wss && <MessageFeed
+          users={rooms[currentRoom].users}
+          roomName={rooms[currentRoom].name}
           wss={wss}
           user={user}
           createUsersObject={createUsersObject}
         />}
-        <RoomList rooms={data.rooms} currentRoom={currentRoom} changeRoom={switchRoom}/>
+        <RoomList rooms={rooms} currentRoom={currentRoom} changeRoom={switchRoom}/>
       </div>}
     </div>
   );

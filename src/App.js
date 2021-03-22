@@ -20,9 +20,6 @@ function App() {
   const [usersInRoom, setUsersInRoom] = useState('');
   const [existsMessage, setExistsMessage] = useState(false);
 
-
-
-
   const [messages, setMessages] = useState('');
 
 
@@ -33,7 +30,7 @@ function App() {
 
       case 'init':
         console.log('init handler');
-        const { username, roomsData } = data;
+        let { username, roomsData } = data;
         setUser(username);
         //localStorage.setItem('username', username);
         setRooms(roomsData);
@@ -55,14 +52,23 @@ function App() {
           message: data.newMessage,
           sender: data.sender
         });
+
+    case 'newUser':
+      let { newUserRoom, newUserName } = data;
+      const updatedUsersInRoom = [...rooms[newUserRoom].users, newUserName];
+      const updatedRoomData = { ...rooms[newUserRoom], users: updatedUsersInRoom };
+      const updatedRoomsData = { ...rooms, [newUserRoom]: updatedRoomData };
+      console.log(updatedRoomsData)
+      setRooms(updatedRoomsData);
     }
     //}
   }
 
-
-  //const ftest = function(wss) {
-
-
+  useEffect(() => {
+    rooms[currentRoom] && createUsersObject(rooms[currentRoom].users);
+  //console.log('rooms[currentRoom]');
+  //console.log(rooms[currentRoom]);
+  }, [rooms[currentRoom]])
 
   /**
    * 1. Establish a connection with a ws server API

@@ -35,21 +35,26 @@ function App() {
         console.log('init handler');
         const { username, roomsData } = data;
         setUser(username);
-        console.log('user ' + user)
         //localStorage.setItem('username', username);
         setRooms(roomsData);
-        console.log('rooms ' + rooms);
         setCurrentRoom('1');
         //localStorage.setItem('currentRoom', '1');
         createUsersObject(roomsData['1'].users);
-
         setMessages(roomsData['1'].history);
-
         break;
+
       case 'userExist':
         console.log('User exist');
         setExistsMessage(true);
         break;
+
+      case 'newMessage':
+        addMessage({
+          id: messages.length,
+          time: new Date(),
+          message: data.newMessage,
+          sender: data.sender
+        });
     }
     //}
   }
@@ -76,7 +81,10 @@ function App() {
   };
 
   const sendMessage = function (newMessage) {
-    wss.send(JSON.stringify({ type: 'newMessage', data: { sender: user, newMessage } }))
+    wss.send(JSON.stringify({
+      type: 'newMessage',
+      data: { room: currentRoom, sender: user, newMessage } 
+    }));
   }
   const addMessage = function (newMessage) {
     setMessages((prev) => [...prev, newMessage])

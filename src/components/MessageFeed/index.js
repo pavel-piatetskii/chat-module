@@ -100,7 +100,7 @@ export default function MessageFeed(props) {
         ></input>
         <button
           className="message-feed__form__button"
-          onClick={(() => sendMessage(newMessage))}
+          onClick={(() => clickSend())}
         >
           Send</button>
       </form>

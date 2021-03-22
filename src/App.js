@@ -19,12 +19,12 @@ function App() {
   const [user, setUser] = useState(localStorage.getItem('username') || '');
   const [usersInRoom, setUsersInRoom] = useState('');
   const [existsMessage, setExistsMessage] = useState(false);
-  //const [wss, setWSS] = useState('');
 
 
 
 
-  const [isConnected, setIsConnected] = useState('');
+  const [messages, setMessages] = useState('');
+
 
   wss.onmessage = (message) => {
     console.log(JSON.parse(message.data));
@@ -41,7 +41,9 @@ function App() {
         console.log('rooms ' + rooms);
         setCurrentRoom('1');
         //localStorage.setItem('currentRoom', '1');
-        createUsersObject(roomsData[currentRoom].users);
+        createUsersObject(roomsData['1'].users);
+
+        setMessages(roomsData['1'].history);
 
         break;
       case 'userExist':
@@ -67,12 +69,18 @@ function App() {
    * @param {*} username 
    */
   const saveUser = function (username) {
-
     wss.send(JSON.stringify({
       type: 'newUser',
       data: { username, room: currentRoom }
     }));
   };
+
+  const sendMessage = function (newMessage) {
+    wss.send(JSON.stringify({ type: 'newMessage', data: { sender: user, newMessage } }))
+  }
+  const addMessage = function (newMessage) {
+    setMessages((prev) => [...prev, newMessage])
+  }
 
 
 
@@ -106,12 +114,14 @@ function App() {
       )}
       {user && <div className="main">
         {usersInRoom && <UserList users={usersInRoom} />}
-        {usersInRoom && <MessageFeed
+        {messages && <MessageFeed
           users={rooms[currentRoom].users}
           roomName={rooms[currentRoom].name}
           wss={wss}
           user={user}
           createUsersObject={createUsersObject}
+          sendMessage={sendMessage}
+          messages={messages}
         />}
         <RoomList rooms={rooms} currentRoom={currentRoom} changeRoom={switchRoom} />
       </div>}

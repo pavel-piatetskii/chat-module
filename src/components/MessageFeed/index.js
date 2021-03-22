@@ -3,13 +3,9 @@ import "./MessageFeed.scss"
 
 export default function MessageFeed(props) {
 
-  const { wss, user, createUsersObject } = props;
+  const { wss, user, sendMessage, messages } = props;
 
-  const [messages, setMessages] = useState('');
-  const addMessage = function (newMessage) {
-    setMessages((prev) => [...prev, newMessage])
-  }
-
+  
   // Implement useRef to scroll down to every new message in the feed
   const messagesScroll = useRef(null);
   const scrollToLast = () => {
@@ -68,9 +64,10 @@ export default function MessageFeed(props) {
   //}
 
   const [newMessage, setNewMessage] = useState('');
-  const sendMessage = function (newMessage) {
-    wss.send(JSON.stringify({ type: 'newMessage', data: { sender: user, newMessage } }))
-    setNewMessage('')
+
+  const clickSend = function() {
+    sendMessage(newMessage);
+    setNewMessage('');
   }
 
 

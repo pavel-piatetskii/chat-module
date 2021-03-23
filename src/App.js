@@ -14,7 +14,6 @@ const wss = new WebSocket(`ws://${host}:${PORT}`);
 function App() {
 
   const [rooms, setRooms] = useState('');
-  //const [currentRoom, setCurrentRoom] = useState('1');
   const [currentRoom, setCurrentRoom] = useState(localStorage.getItem('currentRoom') || '1');
   const [user, setUser] = useState(localStorage.getItem('username') || '');
   const [usersInRoom, setUsersInRoom] = useState('');
@@ -29,19 +28,10 @@ function App() {
     switch (type) {
 
       case 'init':
-        console.log('init handler');
-        let { username, roomsData } = data;
-        setUser(username);
-        //localStorage.setItem('username', username);
-        setRooms(roomsData);
-        setCurrentRoom('1');
-        //localStorage.setItem('currentRoom', '1');
-        createUsersObject(roomsData['1'].users);
-        setMessages(roomsData['1'].history);
+        initiateChat(data.username, data.roomsData)
         break;
 
       case 'userExist':
-        console.log('User exist');
         setExistsMessage(true);
         break;
 
@@ -120,7 +110,15 @@ function App() {
     setRooms(updatedRoomsData);
   };
 
-
+  const initiateChat = function(username, roomsData) {
+    setUser(username);
+    //localStorage.setItem('username', username);
+    setRooms(roomsData);
+    setCurrentRoom('1');
+    //localStorage.setItem('currentRoom', '1');
+    createUsersObject(roomsData['1'].users);
+    setMessages(roomsData['1'].history);
+  };
 
   const switchRoom = function (roomNumber) {
     

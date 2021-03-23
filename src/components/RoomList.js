@@ -5,7 +5,7 @@ import 'styles/responsive.scss'
 
 export default function RoomList(props) {
 
-  const { rooms, changeRoom, currentRoom } = props;
+  const { rooms, switchRoom, currentRoom } = props;
 
   return (
     <section className="room-list list-section">
@@ -15,7 +15,7 @@ export default function RoomList(props) {
           <article
             className="room-list__rooms__room"
             key={room.id}
-            onClick={() => (currentRoom !== room.id) ? changeRoom(room.id) : ''}
+            onClick={() => (currentRoom !== room.id) ? switchRoom(room.id) : ''}
           >
             <img className="room-list__rooms__room__image" src={room.image}></img>
             <mark className="room-list__rooms__room__name">{room.name}</mark>

@@ -52,23 +52,25 @@ function App() {
           message: data.newMessage,
           sender: data.sender
         });
+        break;
 
     case 'newUser':
-      let { newUserRoom, newUserName } = data;
-      const updatedUsersInRoom = [...rooms[newUserRoom].users, newUserName];
-      const updatedRoomData = { ...rooms[newUserRoom], users: updatedUsersInRoom };
-      const updatedRoomsData = { ...rooms, [newUserRoom]: updatedRoomData };
-      console.log(updatedRoomsData)
-      setRooms(updatedRoomsData);
+      addUser(data.newUserRoom, data.newUserName)
+      break;
+
+    case 'userLeft':
+      removeUser(data.oldUserRoom, data.oldUserName)
+      break;
     }
-    //}
   }
 
   useEffect(() => {
     rooms[currentRoom] && createUsersObject(rooms[currentRoom].users);
-  //console.log('rooms[currentRoom]');
-  //console.log(rooms[currentRoom]);
-  }, [rooms[currentRoom]])
+  }, [rooms[currentRoom]]);
+
+  //useEffect(() => {
+  //  setMessages(rooms[currentRoom].history);
+  //}, [currentRoom]);
 
   /**
    * 1. Establish a connection with a ws server API
@@ -96,18 +98,41 @@ function App() {
     setMessages((prev) => [...prev, newMessage])
   }
 
+  /**
+   * Update the 'rooms' state by adding a user to
+   * a specific room. 
+   * @param {*} room 
+   * @param {*} username 
+   */
+  const addUser = function(room, username) {
+    const updatedUsersInRoom = [...rooms[room].users, username];
+    const updatedRoomData = { ...rooms[room], users: updatedUsersInRoom };
+    const updatedRoomsData = { ...rooms, [room]: updatedRoomData };
+    setRooms(updatedRoomsData);
+  };
 
-
+  const removeUser = function(room, username) {
+    const updatedUsersInRoom = [...rooms[room].users].filter(user =>
+      user !== username
+      );
+    const updatedRoomData = { ...rooms[room], users: updatedUsersInRoom };
+    const updatedRoomsData = { ...rooms, [room]: updatedRoomData };
+    setRooms(updatedRoomsData);
+  };
 
 
 
   const switchRoom = function (roomNumber) {
-    wss.send(JSON.stringify({ type: 'userClosed', data: user }));
-    wss.close();
+    
+    //wss.close();
     //setWSS(prev => '');
-    localStorage.setItem('username', '');
+    //localStorage.setItem('username', '');
+    wss.send(JSON.stringify({
+      type: 'userSwitch',
+      data: { userSwitch: user, oldRoom: currentRoom, newRoom: roomNumber }
+    }));
     setCurrentRoom(roomNumber);
-    localStorage.setItem('currentRoom', roomNumber);
+    //localStorage.setItem('currentRoom', roomNumber);
   };
 
   const createUsersObject = function (users) {
@@ -137,7 +162,10 @@ function App() {
           sendMessage={sendMessage}
           messages={messages}
         />}
-        <RoomList rooms={rooms} currentRoom={currentRoom} changeRoom={switchRoom} />
+        <RoomList
+          rooms={rooms}
+          currentRoom={currentRoom}
+          switchRoom={switchRoom} />
       </div>}
     </div>
   );

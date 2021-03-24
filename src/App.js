@@ -5,11 +5,11 @@ import RoomList from "components/RoomList";
 import GetUserName from "components/GetUserName";
 import 'styles/responsive.scss'
 
-const host = window.location.hostname;
-//const PORT = env.PORT || 80;
-const PORT = 3001;
 
+const host = window.location.hostname;
+const PORT = process.env.REACT_APP_WSPORT || 80;
 const wss = new WebSocket(`ws://${host}:${PORT}`);
+
 
 function App() {
 

@@ -8,7 +8,7 @@ import 'styles/responsive.scss'
 
 const host = window.location.hostname;
 const PORT = process.env.REACT_APP_WSPORT || 80;
-const wss = new WebSocket(`ws://${host}:${PORT}`);
+const wss = new WebSocket(`wss://${host}:${PORT}`);
 
 
 function App() {
@@ -56,12 +56,7 @@ function App() {
   }, [rooms[currentRoom]]);
 
   /**
-   * 1. Establish a connection with a ws server API
-   * 2. Send a username parameter there
-   * 3. If "false" received (username doesn't exist in any room), 
-   *    save name and show the chat.
-   * 4. If "true" received (username exists in one of rooms), show the 
-   *    error message
+   * Send a username parameter to the WS server
    * @param {*} username 
    */
   const saveUser = function (username) {

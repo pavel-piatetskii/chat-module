@@ -36,31 +36,27 @@ function App() {
         break;
 
       case 'newMessage':
-        addMessage({
-          id: messages.length,
-          time: new Date(),
-          message: data.newMessage,
-          sender: data.sender
-        });
+        addMessage(data.messageToSave, data.room);
         break;
 
-    case 'newUser':
-      addUser(data.newUserRoom, data.newUserName)
-      break;
-
-    case 'userLeft':
-      removeUser(data.oldUserRoom, data.oldUserName)
-      break;
-    }
+      case 'newUser':
+        addUser(data.newUserRoom, data.newUserName)
+        break;
+      
+      case 'userLeft':
+        removeUser(data.oldUserRoom, data.oldUserName)
+        break;
+      }
   }
 
   useEffect(() => {
     rooms[currentRoom] && createUsersObject(rooms[currentRoom].users);
+    rooms[currentRoom] && setMessages(rooms[currentRoom].history);
   }, [rooms[currentRoom]]);
 
   //useEffect(() => {
-  //  setMessages(rooms[currentRoom].history);
-  //}, [currentRoom]);
+  //  rooms[currentRoom] && setMessages(rooms[currentRoom].history);
+  //}, [rooms[currentRoom]]);
 
   /**
    * 1. Establish a connection with a ws server API
@@ -84,8 +80,12 @@ function App() {
       data: { room: currentRoom, sender: user, newMessage } 
     }));
   }
-  const addMessage = function (newMessage) {
-    setMessages((prev) => [...prev, newMessage])
+  const addMessage = function (message, room) {
+    const updatedHistoryInRoom = [...rooms[room].history, message];
+    const updatedRoomData = { ...rooms[room], history: updatedHistoryInRoom };
+    const updatedRoomsData = { ...rooms, [room]: updatedRoomData };
+    setRooms(updatedRoomsData);
+    //setMessages((prev) => [...prev, newMessage])
   }
 
   /**
@@ -103,8 +103,7 @@ function App() {
 
   const removeUser = function(room, username) {
     const updatedUsersInRoom = [...rooms[room].users].filter(user =>
-      user !== username
-      );
+      user !== username);
     const updatedRoomData = { ...rooms[room], users: updatedUsersInRoom };
     const updatedRoomsData = { ...rooms, [room]: updatedRoomData };
     setRooms(updatedRoomsData);

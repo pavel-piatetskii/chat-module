@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import "./MessageFeed.scss"
 
 export default function MessageFeed(props) {
@@ -6,57 +6,16 @@ export default function MessageFeed(props) {
   const { wss, user, sendMessage, messages } = props;
 
   
-  // Implement useRef to scroll down to every new message in the feed
+  // Implement useRef and useEffect to scroll down if a new message is added to the feed
   const messagesScroll = useRef(null);
   const scrollToLast = () => {
     const el = messagesScroll.current;
     el.scrollTop = el.scrollHeight;
   }
 
-  // Action when client opens a websocket connection
-  wss.onopen = (e) => {
-    console.log('open connection')
-    //setMessages(prev => '');
-    //const userSaved = localStorage.getItem('username');
-    //console.log(userSaved);
-    //if (!userSaved) {
-    //  wss.send(JSON.stringify({ type: 'newUser', data: user }));
-    //  localStorage.setItem('username', user);
-    //} else {
-    //  wss.send(JSON.stringify({ type: 'foo', data: 'bar' }));
-    //}
-    //wss.send(JSON.stringify({ type: 'newUser', data: user }));
-    //localStorage.setItem('username', user);
-
-  }
-
-  // Action when client receives message
-  //wss.onmessage = (rep) => {
-  //  console.log(rep.data)
-  //  const { type, data } = JSON.parse(rep.data);
-  //  switch (type) {
-  //    case 'history':
-  //      data.map(element => {
-  //        const { id, message, time, sender } = element;
-  //        addMessage({ id, time: new Date(time), message, sender })
-  //      });
-  //      break;
-  //    case 'newMessage':
-  //      addMessage({
-  //        id: messages.length,
-  //        time: new Date(),
-  //        message: data.newMessage,
-  //        sender: data.sender
-  //      });
-  //      scrollToLast(); 
-  //      break;
-  //    case 'users':
-  //      createUsersObject(data);
-  //    }
-  //    // Call scrolling function on every new message or on history load
-  //    scrollToLast(); 
-//
-  //}
+  useEffect(() => {
+    scrollToLast();
+  }, [messages])
 
   // Action on closing connection
   //wss.onclose = (e) => {
@@ -69,7 +28,6 @@ export default function MessageFeed(props) {
     sendMessage(newMessage);
     setNewMessage('');
   }
-
 
   return (
     <section className="message-feed">

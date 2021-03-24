@@ -13,6 +13,7 @@ const wss = new WebSocket(`ws://${host}:${PORT}`);
 
 function App() {
 
+
   const [rooms, setRooms] = useState('');
   const [currentRoom, setCurrentRoom] = useState(localStorage.getItem('currentRoom') || '1');
   const [user, setUser] = useState(localStorage.getItem('username') || '');
@@ -53,10 +54,6 @@ function App() {
     rooms[currentRoom] && createUsersObject(rooms[currentRoom].users);
     rooms[currentRoom] && setMessages(rooms[currentRoom].history);
   }, [rooms[currentRoom]]);
-
-  //useEffect(() => {
-  //  rooms[currentRoom] && setMessages(rooms[currentRoom].history);
-  //}, [rooms[currentRoom]]);
 
   /**
    * 1. Establish a connection with a ws server API
@@ -109,27 +106,31 @@ function App() {
     setRooms(updatedRoomsData);
   };
 
+  const setActionOnClose = function(username, room) {
+  window.onbeforeunload = () => 
+    wss.send(JSON.stringify({
+      type: 'close',
+      data: { userLeft: username, room }}));
+
+  }
+
   const initiateChat = function(username, roomsData) {
     setUser(username);
-    //localStorage.setItem('username', username);
     setRooms(roomsData);
     setCurrentRoom('1');
-    //localStorage.setItem('currentRoom', '1');
     createUsersObject(roomsData['1'].users);
     setMessages(roomsData['1'].history);
+    setActionOnClose(username, '1');
   };
 
   const switchRoom = function (roomNumber) {
     
-    //wss.close();
-    //setWSS(prev => '');
-    //localStorage.setItem('username', '');
     wss.send(JSON.stringify({
       type: 'userSwitch',
       data: { userSwitch: user, oldRoom: currentRoom, newRoom: roomNumber }
     }));
     setCurrentRoom(roomNumber);
-    //localStorage.setItem('currentRoom', roomNumber);
+    setActionOnClose(user, roomNumber);
   };
 
   const createUsersObject = function (users) {

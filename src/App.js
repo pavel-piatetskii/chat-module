@@ -6,9 +6,9 @@ import GetUserName from "components/GetUserName";
 import 'styles/responsive.scss'
 
 
-const host = window.location.hostname;
+const host = process.env.REACT_APP_WSHOST || 'quiet-sands-19521-ws-api.herokuapp.com';
 const PORT = process.env.REACT_APP_WSPORT || 80;
-const wss = new WebSocket(`wss://${host}:${PORT}`);
+const wss = new WebSocket(`ws://${host}:${PORT}`);
 
 
 function App() {

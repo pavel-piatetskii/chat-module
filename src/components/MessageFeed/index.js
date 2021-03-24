@@ -79,7 +79,9 @@ export default function MessageFeed(props) {
           <article className="message-feed__message" key={message.id}>
             <div className="message-feed__message__sender-time">
               <mark className="message-feed__message__sender-time__sender">{message.sender}</mark>
-              <mark className="message-feed__message__sender-time__time">{message.time.toLocaleString('en-US').split(',')[1]}</mark>
+              <mark className="message-feed__message__sender-time__time">
+                {new Date(message.time).toLocaleString('en-US').split(',')[1]}
+              </mark>
             </div>
             {(user === message.sender) ? <p className="message-feed__message__content my-message">{message.message}</p> :
             <p className="message-feed__message__content">{message.message}</p>

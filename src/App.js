@@ -1,13 +1,14 @@
 import { useState, useEffect, Fragment } from "react"
+import 'styles/responsive.scss'
 import MessageFeed from "components/MessageFeed";
 import UserList from "components/UserList";
 import RoomList from "components/RoomList";
 import GetUserName from "components/GetUserName";
-import 'styles/responsive.scss'
 
 
 const host = process.env.REACT_APP_WSHOST || 'quiet-sands-19521-ws-api.herokuapp.com';
-const PORT = process.env.REACT_APP_WSPORT || 80;
+//const host = 'quiet-sands-19521-ws-api.herokuapp.com';
+const PORT = process.env.REACT_APP_WSPORT || 3001;
 const wss = new WebSocket(`ws://${host}:${PORT}`);
 
 

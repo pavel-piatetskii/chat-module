@@ -5,6 +5,30 @@
     height: 89vh;
   }
 
+  .get-user {
+    &__greeting {
+      width: 90%;
+      margin: 2vh 6.5vw;
+    }
+
+    &__form {
+      width: 90%;
+      flex-direction: column;
+      align-items: center;
+
+      &__input {
+        width: 100%;
+        margin-right: 0;
+      }
+
+      &__button {
+        font-size: 2rem;
+        width: 33%;
+        margin-top: 3vh;
+      }
+    }
+  }
+
   .main {
     flex-direction: column;
     height: 100%;
@@ -38,9 +62,9 @@
 
   }
   .message-feed {
-    width: 100vw;
     height: 65vh;
     margin: 0;
+    max-width: none;
 
     &__form {
       width: 95%;

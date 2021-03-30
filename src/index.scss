@@ -25,7 +25,7 @@ mark {
 
 #root {
   background-color: cornflowerblue;
-  font-size: 2vh;
+  font-size: 16px;
 }
 
 .App {
@@ -55,12 +55,5 @@ mark {
   .main {
     flex-direction: column;
     height: 100%;
-  }
-
-  .user-list__header, .message-feed__header, .room-list__header {
-    font-size: 2.5vh;
-    height: 1em;
-    padding: 0.25em;
-    text-align: center;
   }
 }

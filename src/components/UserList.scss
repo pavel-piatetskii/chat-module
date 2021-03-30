@@ -53,12 +53,21 @@
         flex-direction: column;
 
         &__name {
-          font-size: 1.75vh;
+          font-size: 0.9rem;
           padding: 0;
           margin-bottom: 0.2em;
           text-align: center;
         }
       }
     }
+    &__header{
+      font-size: 1.2rem;
+      height: 1em;
+      padding: 0.25em;
+      text-align: center;
+    }
+
   }
+
+
 }

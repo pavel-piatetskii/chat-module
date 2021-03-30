@@ -88,6 +88,13 @@
     margin: 0;
     max-width: none;
 
+    &__header {
+      font-size: 1.2rem;
+      height: 1em;
+      padding: 0.25em;
+      text-align: center;
+    }
+
     &__form {
       width: 95%;
 

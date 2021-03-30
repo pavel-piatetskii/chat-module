@@ -50,3 +50,30 @@
     box-shadow: 5px 5px $color-dark;    
   }
 }
+
+@media only screen and (max-width: 1280px) {
+  .get-user {
+    &__greeting {
+      width: 90%;
+      margin: 2vh 6.5vw;
+    }
+
+    &__form {
+      width: 90%;
+      flex-direction: column;
+      align-items: center;
+
+      &__input {
+        width: 100%;
+        margin-right: 0;
+      }
+
+      &__button {
+        font-size: 2rem;
+        width: 33%;
+        margin-top: 3vh;
+      }
+    }
+  }
+
+}

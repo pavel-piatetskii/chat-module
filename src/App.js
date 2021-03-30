@@ -1,5 +1,4 @@
 import { useState, useEffect, Fragment } from "react"
-import 'styles/responsive.scss'
 import MessageFeed from "components/MessageFeed";
 import UserList from "components/UserList";
 import RoomList from "components/RoomList";

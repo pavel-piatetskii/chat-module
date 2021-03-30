@@ -81,3 +81,20 @@
     }
   }
 }
+
+@media only screen and (max-width: 1280px) {
+  .message-feed {
+    height: 65vh;
+    margin: 0;
+    max-width: none;
+
+    &__form {
+      width: 95%;
+
+      &__input {
+        width: 75%;
+        margin-left: 10px;
+      }
+    }
+  }
+}

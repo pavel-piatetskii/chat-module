@@ -14,7 +14,7 @@
     background-color: $color-dark;
     padding-left: 25px;
     margin: 0;
-    padding: 20px;
+    padding: 15px 30px;
     border-radius: 5px 5px 0 0;
   }
 
@@ -81,6 +81,9 @@
     }
   }
 }
+
+
+
 
 @media only screen and (max-width: 1280px) {
   .message-feed {

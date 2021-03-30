@@ -10,13 +10,12 @@ const host = process.env.REACT_APP_WSHOST || 'quiet-sands-19521-ws-api.herokuapp
 const PORT = process.env.REACT_APP_WSPORT || 3001;
 const wss = new WebSocket(`ws://${host}:${PORT}`);
 
-
 function App() {
 
 
   const [rooms, setRooms] = useState('');
-  const [currentRoom, setCurrentRoom] = useState(localStorage.getItem('currentRoom') || '1');
-  const [user, setUser] = useState(localStorage.getItem('username') || '');
+  const [currentRoom, setCurrentRoom] = useState('1');
+  const [user, setUser] = useState('');
   const [usersInRoom, setUsersInRoom] = useState('');
   const [existsMessage, setExistsMessage] = useState(false);
 
@@ -106,16 +105,19 @@ function App() {
     wss.send(JSON.stringify({
       type: 'close',
       data: { userLeft: username, room }}));
-
+  
   }
 
   const initiateChat = function(username, roomsData) {
     setUser(username);
+    localStorage.setItem('user', username);
     setRooms(roomsData);
-    setCurrentRoom('1');
-    createUsersObject(roomsData['1'].users);
-    setMessages(roomsData['1'].history);
-    setActionOnClose(username, '1');
+    const roomToSet = localStorage.getItem('room') || '1' ;
+    localStorage.setItem('room', roomToSet);
+    setCurrentRoom(roomToSet);
+    createUsersObject(roomsData[roomToSet].users);
+    setMessages(roomsData[roomToSet].history);
+    setActionOnClose(username, roomToSet);
   };
 
   const switchRoom = function (roomNumber) {
@@ -124,6 +126,7 @@ function App() {
       type: 'userSwitch',
       data: { userSwitch: user, oldRoom: currentRoom, newRoom: roomNumber }
     }));
+    localStorage.setItem('room', roomNumber);
     setCurrentRoom(roomNumber);
     setActionOnClose(user, roomNumber);
   };
@@ -138,10 +141,23 @@ function App() {
       })
     setUsersInRoom(usersObject);
   }
+  window.onload = () => {
+    if (localStorage.getItem('user')) {
+      const username = localStorage.getItem('user');
+      const room = localStorage.getItem('room');
+      //new Promise(
+        if (wss.readyState === 1){
+          wss.send(JSON.stringify({
+            type: 'returningUser',
+            data: { username, room },
+          }))//)
+        }
+    }
+  }
 
   return (
     <div className="App">
-      {!user && (
+      {!user && !localStorage.getItem('user') && (
         <GetUserName saveUser={saveUser} existsMessage={existsMessage} />
       )}
       {user && <div className="main">

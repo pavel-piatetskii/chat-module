@@ -20,7 +20,7 @@ function App() {
   const [currentRoom, setCurrentRoom] = useState('1');
   const [user, setUser] = useState('');
   const [usersInRoom, setUsersInRoom] = useState('');
-  const [existsMessage, setExistsMessage] = useState(false);
+  const [infoMessage, setInfoMessage] = useState('');
 
   const [messages, setMessages] = useState('');
 
@@ -39,6 +39,10 @@ function App() {
     }
   };
 
+  wss.onerror = () => {
+    setInfoMessage('Unable to connect with server, please try later')
+  }
+
   wss.onmessage = (message) => {
     console.log(JSON.parse(message.data));
     const { type, data } = JSON.parse(message.data);
@@ -53,7 +57,7 @@ function App() {
         break;
 
       case 'userExist':
-        setExistsMessage(true);
+        setInfoMessage('This name already exists, please choose another');
         break;
 
       case 'newMessage':
@@ -181,7 +185,7 @@ function App() {
   return (
     <div className="App">
       {!user &&  (
-        <GetUserName saveUser={saveUser} existsMessage={existsMessage} />
+        <GetUserName saveUser={saveUser} infoMessage={infoMessage} />
       )}
       {user && <div className="main">
         {usersInRoom && <UserList users={usersInRoom} />}

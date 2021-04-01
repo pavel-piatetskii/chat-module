@@ -3,7 +3,7 @@ import "./GetUserName.scss";
 
 export default function GetUserName(props) {
 
-  const { saveUser, existsMessage } = props;
+  const { saveUser, infoMessage } = props;
   const [username, setUsername] = useState('');
 
   return (
@@ -25,7 +25,7 @@ export default function GetUserName(props) {
         >
           That's my name!</button>
       </form>
-      {existsMessage && <div className="get-user__nameexists">This name already exists</div>}
+      {infoMessage && <div className="get-user__nameexists">{infoMessage}</div>}
     </section>
   );
 };

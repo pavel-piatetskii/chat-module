@@ -6,9 +6,9 @@ import GetUserName from "components/GetUserName";
 
 
 const host = process.env.REACT_APP_WSHOST || 'quiet-sands-19521-ws-api.herokuapp.com';
-//const host = 'quiet-sands-19521-ws-api.herokuapp.com';
 const PORT = process.env.REACT_APP_WSPORT || 3001;
 const wss = new WebSocket(`ws://${host}:${PORT}`);
+
 
 function App() {
   console.log(Date.now() + ': ' + wss.readyState);
@@ -24,6 +24,20 @@ function App() {
 
   const [messages, setMessages] = useState('');
 
+  /**
+   * If a user refreshes page, the app doen not ask for a login,
+   * but requests init packet once again
+   */
+  wss.onopen = () => {
+    if (sessionStorage.getItem('user')) {
+      const username = sessionStorage.getItem('user');
+      const room = sessionStorage.getItem('room');
+        wss.send(JSON.stringify({
+          type: 'returningUser',
+          data: { username, room },
+        }))
+    }
+  };
 
   wss.onmessage = (message) => {
     console.log(JSON.parse(message.data));
@@ -88,7 +102,6 @@ function App() {
     const updatedRoomData = { ...rooms[room], history: updatedHistoryInRoom };
     const updatedRoomsData = { ...rooms, [room]: updatedRoomData };
     setRooms(updatedRoomsData);
-    //setMessages((prev) => [...prev, newMessage])
   }
 
   /**
@@ -155,20 +168,7 @@ function App() {
       })
     setUsersInRoom(usersObject);
   }
-  window.onload = () => {
-    if (sessionStorage.getItem('user')) {
-      const username = sessionStorage.getItem('user');
-      const room = sessionStorage.getItem('room');
-      console.log(Date.now() + ': ' + wss.readyState);
-      //new Promise(
-        //if (wss.readyState === 1){
-          //wss.send(JSON.stringify({
-          //  type: 'returningUser',
-          //  data: { username, room },
-          //}))//)
-        //}
-    }
-  }
+
 
   return (
     <div className="App">

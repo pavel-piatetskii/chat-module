@@ -27,13 +27,45 @@
       }
 
       &__unread {
-        position: absolute;
-        margin-top: -45px;
-        margin-left: 60px;
-        font-size: 4em;
-        //top: calc( + 110px);
+        
+        &__outer {
+          
+          position: absolute;
+          font-size: 4rem;
+          background-clip: content-box;
+          
+          border-radius: 100%;
+          height: fit-content;
+          width: fit-content;
+          animation-duration: 1.5s;
+          animation-name: unread_indicator;
+          animation-iteration-count: infinite;
+          animation-direction: normal;
+        }
+        
+        &__inner {
+          
+          background-color: orange;
+          height: 10px;
+          width: 10px;
+          border-radius: 100%;
+        }
 
-        color: orange;
+        @keyframes unread_indicator {
+          from {
+            padding: 0;
+            margin-top: 5px;
+            margin-left: 55px;
+            border: solid orange 4px;
+          }
+
+          to {
+            padding: 15px;
+            margin-top: -10px;
+            margin-left: 40px;
+            border: solid transparent 4px;
+          }
+        }
 
       }
 

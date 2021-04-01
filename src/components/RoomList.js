@@ -16,7 +16,10 @@ export default function RoomList(props) {
           onClick={() => (currentRoom !== room.id) ? switchRoom(room.id) : ''}
           >
             <img className="room-list__rooms__room__image" src={room.image}></img>
-          { room.hasUnread && <p className="room-list__rooms__room__unread">.</p> }
+          { room.hasUnread && <div 
+            className="room-list__rooms__room__unread__outer">
+              <div className="room-list__rooms__room__unread__inner"></div>
+            </div> }
             <mark className="room-list__rooms__room__name">{room.name}</mark>
           </article>
         )) }

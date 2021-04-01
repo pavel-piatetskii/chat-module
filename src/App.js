@@ -11,10 +11,6 @@ const wss = new WebSocket(`ws://${host}:${PORT}`);
 
 
 function App() {
-  console.log(Date.now() + ': ' + wss.readyState);
-  useEffect(() => {
-    console.log(Date.now() + ' raised: ' + wss.readyState);
-  }, [wss.readyState])
 
   const [rooms, setRooms] = useState('');
   const [currentRoom, setCurrentRoom] = useState('1');

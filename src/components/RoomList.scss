@@ -66,7 +66,6 @@
             border: solid transparent 4px;
           }
         }
-
       }
 
       &__image {
@@ -123,6 +122,47 @@
           padding: 0;
           margin-bottom: 0.2em;
           text-align: center;
+        }
+
+        &__unread {
+        
+          &__outer {
+            
+            position: absolute;
+            background-clip: content-box;
+            
+            border-radius: 100%;
+            height: fit-content;
+            width: fit-content;
+            animation-duration: 1.5s;
+            animation-name: unread_indicator;
+            animation-iteration-count: infinite;
+            animation-direction: normal;
+          }
+          
+          &__inner {
+            
+            background-color: orange;
+            height: 7px;
+            width: 7px;
+            border-radius: 100%;
+          }
+  
+          @keyframes unread_indicator {
+            from {
+              padding: 0;
+              margin-top: 5px;
+              margin-left: 30px;
+              border: solid orange 4px;
+            }
+  
+            to {
+              padding: 10px;
+              margin-top: -5px;
+              margin-left: 30px;
+              border: solid transparent 4px;
+            }
+          }
         }
       }
     }

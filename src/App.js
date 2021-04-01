@@ -11,7 +11,10 @@ const PORT = process.env.REACT_APP_WSPORT || 3001;
 const wss = new WebSocket(`ws://${host}:${PORT}`);
 
 function App() {
-
+  console.log(Date.now() + ': ' + wss.readyState);
+  useEffect(() => {
+    console.log(Date.now() + ' raised: ' + wss.readyState);
+  }, [wss.readyState])
 
   const [rooms, setRooms] = useState('');
   const [currentRoom, setCurrentRoom] = useState('1');
@@ -26,6 +29,10 @@ function App() {
     console.log(JSON.parse(message.data));
     const { type, data } = JSON.parse(message.data);
     switch (type) {
+
+      case 'sessionExpired':
+        sessionExpired();
+        break;
 
       case 'init':
         initiateChat(data.username, data.roomsData)
@@ -70,7 +77,12 @@ function App() {
       type: 'newMessage',
       data: { room: currentRoom, sender: user, newMessage } 
     }));
-  }
+  };
+
+  const sessionExpired = function() {
+    sessionStorage.clear();
+  };
+
   const addMessage = function (message, room) {
     const updatedHistoryInRoom = [...rooms[room].history, message];
     const updatedRoomData = { ...rooms[room], history: updatedHistoryInRoom };
@@ -101,19 +113,21 @@ function App() {
   };
 
   const setActionOnClose = function(username, room) {
-  window.onbeforeunload = () => 
+  window.onbeforeunload = () => {
     wss.send(JSON.stringify({
       type: 'close',
-      data: { userLeft: username, room }}));
-  
+      data: { userLeft: username, room }
+    }));
+    wss.close();
+    }
   }
 
   const initiateChat = function(username, roomsData) {
     setUser(username);
-    localStorage.setItem('user', username);
+    sessionStorage.setItem('user', username);
     setRooms(roomsData);
-    const roomToSet = localStorage.getItem('room') || '1' ;
-    localStorage.setItem('room', roomToSet);
+    const roomToSet = sessionStorage.getItem('room') || '1' ;
+    sessionStorage.setItem('room', roomToSet);
     setCurrentRoom(roomToSet);
     createUsersObject(roomsData[roomToSet].users);
     setMessages(roomsData[roomToSet].history);
@@ -126,7 +140,7 @@ function App() {
       type: 'userSwitch',
       data: { userSwitch: user, oldRoom: currentRoom, newRoom: roomNumber }
     }));
-    localStorage.setItem('room', roomNumber);
+    sessionStorage.setItem('room', roomNumber);
     setCurrentRoom(roomNumber);
     setActionOnClose(user, roomNumber);
   };
@@ -142,22 +156,23 @@ function App() {
     setUsersInRoom(usersObject);
   }
   window.onload = () => {
-    if (localStorage.getItem('user')) {
-      const username = localStorage.getItem('user');
-      const room = localStorage.getItem('room');
+    if (sessionStorage.getItem('user')) {
+      const username = sessionStorage.getItem('user');
+      const room = sessionStorage.getItem('room');
+      console.log(Date.now() + ': ' + wss.readyState);
       //new Promise(
-        if (wss.readyState === 1){
-          wss.send(JSON.stringify({
-            type: 'returningUser',
-            data: { username, room },
-          }))//)
-        }
+        //if (wss.readyState === 1){
+          //wss.send(JSON.stringify({
+          //  type: 'returningUser',
+          //  data: { username, room },
+          //}))//)
+        //}
     }
   }
 
   return (
     <div className="App">
-      {!user && !localStorage.getItem('user') && (
+      {!user &&  (
         <GetUserName saveUser={saveUser} existsMessage={existsMessage} />
       )}
       {user && <div className="main">

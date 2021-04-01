@@ -99,7 +99,8 @@ function App() {
 
   const addMessage = function (message, room) {
     const updatedHistoryInRoom = [...rooms[room].history, message];
-    const updatedRoomData = { ...rooms[room], history: updatedHistoryInRoom };
+    const hasUnread = room !== currentRoom;
+    const updatedRoomData = { ...rooms[room], history: updatedHistoryInRoom, hasUnread };
     const updatedRoomsData = { ...rooms, [room]: updatedRoomData };
     setRooms(updatedRoomsData);
   }
@@ -156,6 +157,13 @@ function App() {
     sessionStorage.setItem('room', roomNumber);
     setCurrentRoom(roomNumber);
     setActionOnClose(user, roomNumber);
+    if (rooms[roomNumber].hasUnread) unsetUnread(roomNumber);
+  };
+
+  const unsetUnread = function(room) {
+    const updatedRoomData = { ...rooms[room], hasUnread: false };
+    const updatedRoomsData = { ...rooms, [room]: updatedRoomData };
+    setRooms(updatedRoomsData);
   };
 
   const createUsersObject = function (users) {

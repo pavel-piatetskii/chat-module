@@ -11,11 +11,12 @@ export default function RoomList(props) {
       <div className="room-list__rooms">
         {Object.values(rooms).map((room) => (
           <article
-            className="room-list__rooms__room"
-            key={room.id}
-            onClick={() => (currentRoom !== room.id) ? switchRoom(room.id) : ''}
+          className="room-list__rooms__room"
+          key={room.id}
+          onClick={() => (currentRoom !== room.id) ? switchRoom(room.id) : ''}
           >
             <img className="room-list__rooms__room__image" src={room.image}></img>
+          { room.hasUnread && <p className="room-list__rooms__room__unread">.</p> }
             <mark className="room-list__rooms__room__name">{room.name}</mark>
           </article>
         )) }

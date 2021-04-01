@@ -26,6 +26,17 @@
         background-color: $color-medium
       }
 
+      &__unread {
+        position: absolute;
+        margin-top: -45px;
+        margin-left: 60px;
+        font-size: 4em;
+        //top: calc( + 110px);
+
+        color: orange;
+
+      }
+
       &__image {
         width: 50px;
         height: 50px;

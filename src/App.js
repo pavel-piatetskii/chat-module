@@ -7,7 +7,9 @@ import GetUserName from "components/GetUserName";
 
 const host = process.env.REACT_APP_WSHOST || 'quiet-sands-19521-ws-api.herokuapp.com';
 const PORT = process.env.REACT_APP_WSPORT || 3001;
-const wss = new WebSocket(`wss://${host}:${PORT}`);
+
+// If WS Secure is to be used, replace ws:// with wss://
+const wss = new WebSocket(`ws://${host}:${PORT}`);
 
 
 function App() {

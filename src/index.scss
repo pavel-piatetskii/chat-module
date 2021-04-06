@@ -53,11 +53,13 @@ mark {
 
   .App {
     padding: 0;
-    height: 89vh;
+    height: 100vh;
+    //align-items: flex-start;
   }
 
   .main {
     flex-direction: column;
     height: 100%;
+    justify-content: flex-start;
   }
 }

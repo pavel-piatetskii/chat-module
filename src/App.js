@@ -89,6 +89,7 @@ function App() {
   };
 
   const sendMessage = function (newMessage) {
+    if (!newMessage) return false;
     wss.send(JSON.stringify({
       type: 'newMessage',
       data: { room: currentRoom, sender: user, newMessage } 

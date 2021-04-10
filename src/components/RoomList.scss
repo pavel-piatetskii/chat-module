@@ -15,6 +15,15 @@
 
   &__rooms {
     flex-direction: column;
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+      width: 6px!important;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0,0,0,.2);
+    }
     
     
     &__room {
@@ -103,13 +112,15 @@
 
     &__rooms{
       flex-direction: row;
-      overflow-x: scroll;
-      padding: 0 2vw;
+      overflow-y: scroll;
+      overflow-x: unset;
 
       &__room {
         flex-direction: column;
-        margin: 0 0.5vh;
+        height: 4em;
+        width: 6em;
         align-items: center;
+        padding: 1vw;
 
         &__image {
           width: 5vh;

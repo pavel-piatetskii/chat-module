@@ -17,6 +17,8 @@ export default function GetUserName(props) {
           className="get-user__form__input"
           name="username"
           value={username}
+          autoComplete="off"
+          maxLength="8"
           onChange={(e) => setUsername(e.target.value)}
         ></input>
         <button

@@ -19,6 +19,7 @@ On entering the page, a ueser sees the login input field. Maximum length of logi
 !["chat-module - login exists"](https://github.com/pavel-piatetskii/chat-module/blob/master/docs/login-exists.png)
 If a name they enter already exists, the message about it will be shown.
 
+
 ### Application
 !["chat-module - application window"](https://github.com/pavel-piatetskii/chat-module/blob/master/docs/application.png)
 The application window is split into 3 sections: Users, Chat feed and Rooms. 
@@ -27,12 +28,13 @@ The application window is split into 3 sections: Users, Chat feed and Rooms.
 
 **Chat feed** section (labeled "Main room" on the screenshot) displays all messages for a room you are currently in (even those which were sent before you logged in) and allows you to write a message as well. Label on the top shows a name of the room you are currently in.
 
-**Rooms** section shows a list of room available. Also, if a new message appears in the room you are not currently in, you see a flashing yellow dot on this room icon. List of the room can be easily changed on the API-side
+**Rooms** section shows a list of room available. Also, if a new message appears in the room you are not currently in, you see a flashing yellow dot on this room icon. List of the room can be easily changed on the API-side.
 
 
-
-### Exchange with API
+### Exchange with the API
 !["chat-module - application window"](https://github.com/pavel-piatetskii/chat-module/blob/master/docs/api-exchange.png)
+All updates for the application states comes from API in form of JSON. Even if a user sends a message, it firstly goes to the server and only after a response from it received, the message appears in the feed. This is done to avoid desyncronization with the server.
+
 
 ## Getting Started
 

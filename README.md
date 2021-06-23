@@ -13,15 +13,18 @@ https://user-images.githubusercontent.com/69732643/122708644-77bbb780-d211-11eb-
 
 ### Login screen
 !["chat-module - login screen"](https://github.com/pavel-piatetskii/chat-module/blob/master/docs/login.png)
+
 On entering the page, a ueser sees the login input field. Maximum length of login is 8 characters (to be changed in later updates).
 
 #### Login exists
 !["chat-module - login exists"](https://github.com/pavel-piatetskii/chat-module/blob/master/docs/login-exists.png)
+
 If a name they enter already exists, the message about it will be shown.
 
 
 ### Application
 !["chat-module - application window"](https://github.com/pavel-piatetskii/chat-module/blob/master/docs/application.png)
+
 The application window is split into 3 sections: Users, Chat feed and Rooms. 
 
 **"Users in this room"** section displays only those users who are currently present in the same room with you (Main room on the screenshot). If a user switches to another room, they disappear from this section and appear in the same section of another room. 
@@ -33,10 +36,9 @@ The application window is split into 3 sections: Users, Chat feed and Rooms.
 
 ### Exchange with the API
 !["chat-module - application window"](https://github.com/pavel-piatetskii/chat-module/blob/master/docs/api-exchange.png)
+
 All updates for the application states comes from API in form of JSON. Even if a user sends a message, it firstly goes to the server and only after a response from it received, the message appears in the feed. This is done to avoid desyncronization with the server.
 
-
-## Getting Started
 
 ## Dependencies
  - express 4.17.1;
